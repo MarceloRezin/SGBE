@@ -8,7 +8,7 @@ public class Locatario {
 	private String referencia;
 	private String serie;
 	private String nomePai;
-	private String nomeMae;
+	private String nome;
 	
 	
 	
