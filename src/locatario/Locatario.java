@@ -71,11 +71,11 @@ public class Locatario {
 		
 		String locatario = "Nome: "+ getNomeCompleto() + "\n" +
 							"Data Nascimento: "+ getDataNascimento() + "\n" +
-							"Endereço: "+ getEndereco() + "\n" +
+							"EndereÃ§o: "+ getEndereco() + "\n" +
 							"Referencia: "+ getReferencia() + "\n" + 
-							"Série: "+ getSerie() + "\n" +
+							"SÃ©rie: "+ getSerie() + "\n" +
 							"Nome do Pai: "+ getNomePai() + "\n" +
-							"Nome da Mãe: "+ getNomeMae() + "\n";
+							"Nome da MÃ£e: "+ getNomeMae() + "\n";
 		return  locatario;
 		
 	}
