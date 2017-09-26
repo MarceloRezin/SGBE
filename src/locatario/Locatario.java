@@ -3,20 +3,20 @@ package locatario;
 public class Locatario {
 
 	private String nomeCompleto;
-	private String data;
+	private String dataNascimento;
 	private String endereco;
 	private String referencia;
 	private String serie;
 	private String nomePai;
-	private String nome;
+	private String nomeMae;
 	
 	
 	
-	public Locatario(String nomeCompleto, String data, String endereco, String referencia, String serie, String nomePai,
+	public Locatario(String nomeCompleto, String dataNascimento, String endereco, String referencia, String serie, String nomePai,
 			String nomeMae) {
 		super();
 		this.nomeCompleto = nomeCompleto;
-		this.data = data;
+		this.dataNascimento = dataNascimento;
 		this.endereco = endereco;
 		this.referencia = referencia;
 		this.serie = serie;
@@ -29,11 +29,11 @@ public class Locatario {
 	public void setNomeCompleto(String nomeCompleto) {
 		this.nomeCompleto = nomeCompleto;
 	}
-	public String getData() {
-		return data;
+	public String getDataNascimento() {
+		return dataNascimento;
 	}
-	public void setData(String data) {
-		this.data = data;
+	public void setDataNascimento(String dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 	public String getEndereco() {
 		return endereco;
@@ -64,6 +64,20 @@ public class Locatario {
 	}
 	public void setNomeMae(String nomeMae) {
 		this.nomeMae = nomeMae;
+	}
+	
+	@Override
+	public String toString(){
+		
+		String locatario = "Nome: "+ getNomeCompleto() + "\n" +
+							"Data Nascimento: "+ getDataNascimento() + "\n" +
+							"Endereço: "+ getEndereco() + "\n" +
+							"Referencia: "+ getReferencia() + "\n" + 
+							"Série: "+ getSerie() + "\n" +
+							"Nome do Pai: "+ getNomePai() + "\n" +
+							"Nome da Mãe: "+ getNomeMae() + "\n";
+		return  locatario;
+		
 	}
 	
 	
