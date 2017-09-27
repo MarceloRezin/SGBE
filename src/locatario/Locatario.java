@@ -1,5 +1,5 @@
 package locatario;
-
+//Declaração de Variaveis.
 public class Locatario {
 
 	private String nomeCompleto;
@@ -11,7 +11,7 @@ public class Locatario {
 	private String nomeMae;
 	
 	
-	
+	//Construtor com Parametro.
 	public Locatario(String nomeCompleto, String dataNascimento, String endereco, String referencia, String serie, String nomePai,
 			String nomeMae) {
 		super();
@@ -23,6 +23,8 @@ public class Locatario {
 		this.nomePai = nomePai;
 		this.nomeMae = nomeMae;
 	}
+	
+	//Gets e Sets
 	public String getNomeCompleto() {
 		return nomeCompleto;
 	}
@@ -66,6 +68,7 @@ public class Locatario {
 		this.nomeMae = nomeMae;
 	}
 	
+	//Retorno da String com Todos os Dados ja Formatado.
 	@Override
 	public String toString(){
 		
