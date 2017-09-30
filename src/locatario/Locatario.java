@@ -1,4 +1,9 @@
+/**
+ * ADICIONAR DESCRIÇÃO DA CLASSE
+ */
+
 package locatario;
+
 //Declaração de Variaveis.
 public class Locatario {
 
