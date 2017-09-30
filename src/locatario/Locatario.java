@@ -73,7 +73,7 @@ public class Locatario {
 		this.nomeMae = nomeMae;
 	}
 	
-	//Retorno da String com Todos os Dados ja Formatado.
+	//Retorno da String com todos os dados formatados.
 	@Override
 	public String toString(){
 		
