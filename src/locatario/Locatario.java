@@ -4,9 +4,10 @@
 
 package locatario;
 
-//Declaração de Variaveis.
+
 public class Locatario {
 
+	//Declaração de Variaveis.
 	private String nomeCompleto;
 	private String dataNascimento;
 	private String endereco;
@@ -77,14 +78,13 @@ public class Locatario {
 	@Override
 	public String toString(){
 		
-		String locatario = "Nome: "+ getNomeCompleto() + "\n" +
-							"Data Nascimento: "+ getDataNascimento() + "\n" +
-							"Endereço: "+ getEndereco() + "\n" +
-							"Referencia: "+ getReferencia() + "\n" + 
-							"Série: "+ getSerie() + "\n" +
-							"Nome do Pai: "+ getNomePai() + "\n" +
-							"Nome da Mãe: "+ getNomeMae() + "\n";
-		return  locatario;
+		return "Nome: "+ nomeCompleto + "\n" +
+				"Data Nascimento: "+ dataNascimento + "\n" +
+				"Endereço: "+ endereco + "\n" +
+				"Referencia: "+ referencia + "\n" + 
+				"Série: "+ serie + "\n" +
+				"Nome do Pai: "+ nomePai + "\n" +
+				"Nome da Mãe: "+ nomeMae + "\n";
 		
 	}
 	
