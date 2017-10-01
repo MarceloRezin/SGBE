@@ -70,15 +70,11 @@ public class Livro {
 			dis = "Indisponivel";
 		}
 		
-		return	"Numero De Registro: " + numeroRegistro +
-				"Titulo: " + titulo + 
-				"Autor: " + autor + 
-				"Localização: "	+ localizacao + 
+		return	"Numero De Registro: " + numeroRegistro + "/n" +
+				"Titulo: " + titulo + "/n" +
+				"Autor: " + autor + "/n" +
+				"Localização: "	+ localizacao + "/n"+ 
 				"Disponivel: " + dis;
-	}	
-	
-	
-	
-
+	}
 	
 }

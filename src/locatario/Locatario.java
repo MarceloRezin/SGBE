@@ -85,9 +85,7 @@ public class Locatario {
 				"Série: "+ serie + "\n" +
 				"Nome do Pai: "+ nomePai + "\n" +
 				"Nome da Mãe: "+ nomeMae + "\n";
-		
 	}
-	
 	
 	
 }
