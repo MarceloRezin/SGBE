@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class TelaPrincipal extends JFrame {
 
 	private JPanel contentPane;
@@ -74,7 +75,7 @@ public class TelaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				TelaEmprestimo te = new TelaEmprestimo();
 				te.setVisible(true);
-				setVisible(false);
+				dispose();
 			}
 		});
 		btnEmprestimo.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_emprestimo_32.png")));

@@ -21,7 +21,9 @@ import javax.swing.SpinnerModel;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class TelaEmprestimo extends JFrame {
 
 	private JPanel contentPane;
@@ -45,6 +47,9 @@ public class TelaEmprestimo extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	public JLabel lNome;
+	
 	public TelaEmprestimo() {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,12 +73,25 @@ public class TelaEmprestimo extends JFrame {
 		panelAluno.setLayout(new GridLayout(2, 2, 0, 0));
 		
 		JLabel lblNome = new JLabel("Nome:");
+		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
 		panelAluno.add(lblNome);
 		
-		JLabel lNome = new JLabel("");
+		lNome = new JLabel("");
+		lNome.setFont(new Font("Dialog", Font.BOLD, 14));
 		panelAluno.add(lNome);
 		
+		TelaEmprestimo estaClasse = this;
+		
 		JButton btnLocalizar = new JButton("Localizar");
+		btnLocalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String s="";
+				TelaLocalizarLocatario tl = new TelaLocalizarLocatario(estaClasse, s);
+				tl.setVisible(true);
+				setVisible(false);
+				
+			}
+		});
 		btnLocalizar.setIcon(new ImageIcon(TelaEmprestimo.class.getResource("/icones/i_buscar_locatario_16.png")));
 		panelAluno.add(btnLocalizar);
 		
