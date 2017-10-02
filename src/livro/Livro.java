@@ -50,7 +50,7 @@ public class Livro {
 	public void setLocalizacao(String localizacao) {
 		this.localizacao = localizacao;
 	}
-	public Boolean getDisponivel() {
+	public Boolean isDisponivel() {
 		return disponivel;
 	}
 	public void setDisponivel(Boolean disponivel) {
