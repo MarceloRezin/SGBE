@@ -7,7 +7,7 @@ package locatario;
 import java.util.ArrayList;
 
 public class GerenciaLocatarios {
-	//Declaro a Lista de Locadores.
+	
 	private ArrayList<Locatario> locador = new ArrayList<>();
 	
 	//Consulta pelo Nome e Retorna o Locador.
@@ -38,12 +38,12 @@ public class GerenciaLocatarios {
 		return turma;
 	}
 	
-	//Adiciona um Novo Locador na Lista.
+	
 	public void addLocador(Locatario locador) {
 		this.locador.add(locador);
 	}
 	
-	//Removo um Locador da Lista.
+
 	public void removeLocador(Locatario locador) {
 		if(locador == null) {
 			return;
