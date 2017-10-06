@@ -7,17 +7,19 @@ package locatario;
 import java.util.ArrayList;
 
 public class GerenciaLocatarios {
+	
 	//Declaro a Lista de Locadores.
 	private ArrayList<Locatario> locador = new ArrayList<>();
 	
 	//Consulta pelo Nome e Retorna o Locador.
 	public Locatario consultaPorNome(String nome) {
 		//Percorre o Array Buscando pelo Nome.
-		for(int i = 0; i < locador.size(); i++) {
-			Locatario l = locador.get(i);
-			if(l.getNomeCompleto() == nome) {
-				return l;
+		
+		for (Locatario locatario : locador) {
+			if(locatario.getNomeCompleto() == nome) {
+				return locatario;
 			}
+
 		}
 		return null;		
 	}

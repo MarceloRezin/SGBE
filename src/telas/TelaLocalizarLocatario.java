@@ -73,6 +73,12 @@ public class TelaLocalizarLocatario extends JFrame {
 		panel1.setLayout(new GridLayout(1, 3, 0, 0));
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				te.setVisible(true);
+				dispose();
+			}
+		});
 		btnCancelar.setIcon(new ImageIcon(TelaLocalizarLocatario.class.getResource("/icones/i_cancelar_16.png")));
 		panel1.add(btnCancelar);
 		
