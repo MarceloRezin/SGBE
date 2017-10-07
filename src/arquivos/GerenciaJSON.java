@@ -19,7 +19,7 @@ import locatario.Locatario;
 public class GerenciaJSON {
 	
 	
-	public <T> void gravarJSON(ArrayList<T> lista, String diretorio) {
+	public <T> void gravarJSON(ArrayList<T> lista, Diretorio diretorio) {
 		Gson gson = new Gson();
 		
 		
@@ -42,7 +42,7 @@ public class GerenciaJSON {
 		
 		try {
 			
-			FileWriter writer = new FileWriter(diretorio);
+			FileWriter writer = new FileWriter(Diretorio.DIR_RAIZ.diretorio + diretorio.diretorio);
 			writer.write(json);
 			writer.close();
 	 
@@ -52,12 +52,12 @@ public class GerenciaJSON {
 		
 	}
 	
-	private <T> ArrayList<T> leJSON(String diretorio){
+	private <T> ArrayList<T> leJSON(Diretorio diretorio){
 		ArrayList<T> lista = null;
 		
 		try {
 			Gson gson = new Gson();
-			BufferedReader br = new BufferedReader(new FileReader(diretorio));
+			BufferedReader br = new BufferedReader(new FileReader(Diretorio.DIR_RAIZ.diretorio + diretorio.diretorio));
 
 			Type ls = new TypeToken<T>(){}.getType(); 
 			
@@ -71,7 +71,7 @@ public class GerenciaJSON {
 		
 	}
 	
-	public ArrayList<Locatario> leJSONLocatario(String diretorio) {
+	public ArrayList<Locatario> leJSONLocatario(Diretorio diretorio) {
 		ArrayList<Locatario> locatarios = new ArrayList<>();
 		
 		Gson gson = new Gson();
@@ -87,7 +87,7 @@ public class GerenciaJSON {
 		return locatarios;
 	}
 	
-	public ArrayList<Livro> leJSONLivro(String diretorio) {
+	public ArrayList<Livro> leJSONLivro(Diretorio diretorio) {
 		ArrayList<Livro> livro = new ArrayList<>();
 		
 		Gson gson = new Gson();
@@ -103,7 +103,7 @@ public class GerenciaJSON {
 		return livro;
 	}
 	
-	public ArrayList<Emprestimo> leJSONEmprestimo(String diretorio) {
+	public ArrayList<Emprestimo> leJSONEmprestimo(Diretorio diretorio) {
 		ArrayList<Emprestimo> emprestimo = new ArrayList<>();
 		
 		Gson gson = new Gson();
