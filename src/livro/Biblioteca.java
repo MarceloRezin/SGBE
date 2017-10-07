@@ -10,12 +10,17 @@ public class Biblioteca {
 
 	private ArrayList<Livro> livros;
 	
-	//Consulra pelo Numero de Registro e Retorna o Livro.
+	public Biblioteca(ArrayList<Livro> livros) {
+		this.livros = livros;
+	}
+	
+	
+	public void setLivros(ArrayList<Livro> livros) {
+		this.livros = livros;
+	}
+
+	//Consulta pelo numero de registro e retorna o livro.
 	public Livro ConsultaNumeroRegistro(int numeroRegistro) {
-		
-		if(livros == null) {
-			return null;
-		}
 		
 		for (Livro livro : livros) {
 			if(livro.getNumeroRegistro() == numeroRegistro) {
@@ -27,10 +32,6 @@ public class Biblioteca {
 	
 	//Consulra pelo Titulo e Retorna o Livro.
 	public Livro ConsultaTitulo(String titulo) {
-		
-		if (livros == null) {
-			return null;
-		}
 		
 		for (Livro livro : livros) {
 			if(livro.getTitulo() == titulo) {
@@ -44,11 +45,9 @@ public class Biblioteca {
 	//Lista Todos os Livros.
 	public ArrayList<Livro> ListarTodos(){
 		
-		ArrayList<Livro> todos = null;
+		ArrayList<Livro> todos = new ArrayList<>();
 		
-		if(livros ==  null) {
-			return todos;
-		}		
+		
 		for (Livro livro : livros) {
 			
 			todos.add(livro);
