@@ -94,6 +94,15 @@ public class TelaPrincipal extends JFrame {
 		panel.add(btnGerLivros);
 		
 		JButton btnGerLocatarios = new JButton("Ger. Locatarios");
+		btnGerLocatarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				TelaGerenciarLocatario tgl = new TelaGerenciarLocatario();
+				tgl.setVisible(true);
+				dispose();
+				
+			}
+		});
 		btnGerLocatarios.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_ger_locatario_32.png")));
 		panel.add(btnGerLocatarios);
 		
