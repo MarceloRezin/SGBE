@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import locatario.Locatario;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -168,7 +171,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TelaGerenciarLocatario tgl = new TelaGerenciarLocatario();
+				TelaGerenciarLocatario tgl = new TelaGerenciarLocatario(null);
 				tgl.setVisible(true);
 				dispose();
 			}
@@ -177,9 +180,30 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel_1.add(btnCancelar);
 		
 		JButton btnLimparTudo = new JButton("Limpar Tudo");
+		btnLimparTudo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				campoData.setText("");
+				campoEndereco.setText("");
+				campoMãe.setText("");
+				campoNome.setText("");
+				campoPai.setText("");
+				campoReferencia.setText("");
+				campoSerie.setText("");
+				
+				
+			}
+		});
 		panel_1.add(btnLimparTudo);
 		
 		JButton btnConcluir = new JButton("Concluir");
+		btnConcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Locatario locatario = new Locatario(campoNome.getText(), campoData.getText(), campoEndereco.getText(), campoReferencia.getText(), campoSerie.getText(), campoPai.getText(), campoMãe.getText());
+				
+			}
+		});
 		btnConcluir.setIcon(new ImageIcon(TelaAdicionarLocatario.class.getResource("/icones/i_concluir_16.png")));
 		panel_1.add(btnConcluir);
 	}

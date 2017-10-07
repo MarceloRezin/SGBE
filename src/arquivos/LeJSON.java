@@ -16,43 +16,9 @@ import livro.Emprestimo;
 import livro.Livro;
 import locatario.Locatario;
 
-public class GerenciaJSON {
+public class LeJSON {
 	
-	
-	public <T> void gravarJSON(ArrayList<T> lista, Diretorio diretorio) {
-		Gson gson = new Gson();
-		
-		
-		String json = "[";
-		
-		int i = 1; // contador para saber se é a ultima iteração do for each
-		
-		for (T obj : lista) {
-			
-			json+= gson.toJson(obj);
-			
-			if(i != lista.size()) {
-				json += ",";
-			}else {
-				json += "]";
-			}
-			
-			i++;
-		}
-		
-		try {
-			
-			FileWriter writer = new FileWriter(Diretorio.DIR_RAIZ.diretorio + diretorio.diretorio);
-			writer.write(json);
-			writer.close();
-	 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	private <T> ArrayList<T> leJSON(Diretorio diretorio){
+	public <T> ArrayList<T> leJSON(Diretorio diretorio){
 		ArrayList<T> lista = null;
 		
 		try {
@@ -77,6 +43,10 @@ public class GerenciaJSON {
 		Gson gson = new Gson();
 		
 		ArrayList<Object> listaObjs = leJSON(diretorio);
+		
+		if(listaObjs == null) {
+			listaObjs = new ArrayList<>();
+		}
 		
 		for(Object ob : listaObjs) {
 			Locatario l = gson.fromJson(ob.toString(), Locatario.class);

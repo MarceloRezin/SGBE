@@ -6,11 +6,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import locatario.Locatario;
+
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.concurrent.Future;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
@@ -25,7 +30,7 @@ public class TelaGerenciarLocatario extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaGerenciarLocatario frame = new TelaGerenciarLocatario();
+					TelaGerenciarLocatario frame = new TelaGerenciarLocatario(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -37,7 +42,7 @@ public class TelaGerenciarLocatario extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaGerenciarLocatario() {
+	public TelaGerenciarLocatario(Future<ArrayList<Locatario>> future) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

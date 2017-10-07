@@ -6,26 +6,29 @@ import locatario.Locatario;
 
 public class Teste {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		
 		
-		Locatario l = new Locatario("Marcelo Rezin", "s sd", "06-08-98", "sdd sd", "ewee e", "sdsds dsd", "sdsdds s");
+		Locatario l = new Locatario("M", "s sd", "06-08-98", "sdd sd", "ewee e", "sdsds dsd", "sdsdds s");
+		
 		
 		ArrayList<Locatario> al = new ArrayList<>();
 		
-		al.add(l);
+		for(int i=0; i<50000; i++) {
+			l.setNomeCompleto(i+"");
+			al.add(l);
+			
+		}
 		
-		GerenciaJSON gj = new GerenciaJSON();
+		new GravaJSON<>(al, Diretorio.DIR_LOCATARIOS).call();
 		
-		new VerificaArquivo().verificaECriaDiretorio(Diretorio.DIR_LOCATARIOS);
 		
-		gj.gravarJSON(al, Diretorio.DIR_LOCATARIOS);
+		ArrayList<Locatario> ag = new LeJsonLocatario().call();
 		
-		al = gj.leJSONLocatario(Diretorio.DIR_LOCATARIOS);
-		
-		System.out.println(al.get(0).toString());
-
+		for (Locatario locatario : ag) {
+			System.out.println(locatario.toString());
+		}
 	}
 
 }

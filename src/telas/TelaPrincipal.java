@@ -5,6 +5,12 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -15,13 +21,18 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import arquivos.Diretorio;
+import arquivos.LeJsonLocatario;
+import arquivos.VerificaArquivo;
+import locatario.Locatario;
 
 @SuppressWarnings("serial")
 public class TelaPrincipal extends JFrame {
 
 	private JPanel contentPane;
+	
+	private static final ExecutorService threadpool = Executors.newFixedThreadPool(4);
 
 	/**
 	 * Launch the application.
@@ -30,6 +41,18 @@ public class TelaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					VerificaArquivo va0 = new VerificaArquivo(Diretorio.DIR_LOCATARIOS);
+					VerificaArquivo va1 = new VerificaArquivo(Diretorio.DIR_LIVROS);
+					VerificaArquivo va2 = new VerificaArquivo(Diretorio.DIR_EMPRESTIMOS);
+					VerificaArquivo va3 = new VerificaArquivo(Diretorio.DIR_ATRASOS);
+					
+					threadpool.submit(va0);
+					threadpool.submit(va1);
+					threadpool.submit(va2);
+					threadpool.submit(va3);
+					
+					threadpool.shutdown();
+					
 					TelaPrincipal frame = new TelaPrincipal();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -97,7 +120,11 @@ public class TelaPrincipal extends JFrame {
 		btnGerLocatarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				TelaGerenciarLocatario tgl = new TelaGerenciarLocatario();
+				LeJsonLocatario ll = new LeJsonLocatario();
+				
+				Future<ArrayList<Locatario>> future = threadpool.submit(ll);
+				
+				TelaGerenciarLocatario tgl = new TelaGerenciarLocatario(future);
 				tgl.setVisible(true);
 				dispose();
 				

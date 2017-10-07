@@ -2,16 +2,25 @@ package arquivos;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
-public final class VerificaArquivo {
+public class VerificaArquivo implements Callable<Void>{
 	
-	public boolean verificaDiretorio(Diretorio dir) {
+	private final Diretorio dir;
+	
+	public VerificaArquivo(Diretorio dir) {
+		this.dir = dir;
+	}
+	
+	private boolean verificaDiretorio(Diretorio dir) {
 		File file = new File(Diretorio.DIR_RAIZ.diretorio + dir.diretorio);
 		
 		return file.exists();
 	}
 	
-	public void verificaECriaDiretorio(Diretorio dir) {
+	
+	
+	private void verificaECriaDiretorio(Diretorio dir) {
 		if(verificaDiretorio(dir) == false) {
 			new File(Diretorio.DIR_RAIZ.diretorio).mkdirs();
 			
@@ -22,6 +31,15 @@ public final class VerificaArquivo {
 				e.printStackTrace();
 			}
 		}
+	}
+
+
+
+	@Override
+	public Void call() throws Exception {
+		verificaECriaDiretorio(dir);
+		
+		return null;
 	}
 
 }
