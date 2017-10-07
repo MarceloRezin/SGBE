@@ -8,58 +8,53 @@ import java.util.ArrayList;
 
 public class GerenciaLocatarios {
 	
-<<<<<<< HEAD
-	//Declaro a Lista de Locadores.
-=======
->>>>>>> branch 'master' of https://github.com/MarceloRezin/SGBE
-	private ArrayList<Locatario> locador = new ArrayList<>();
+
+	private ArrayList<Locatario> locatarios;
 	
+	public GerenciaLocatarios(ArrayList<Locatario> locatarios) {
+		this.locatarios = locatarios;
+	}
+	
+	public void setLocatarios(ArrayList<Locatario> locatarios) {
+		this.locatarios = locatarios;
+	}
+
 	//Consulta pelo Nome e Retorna o Locador.
 	public Locatario consultaPorNome(String nome) {
-<<<<<<< HEAD
 		//Percorre o Array Buscando pelo Nome.
-		
-		for (Locatario locatario : locador) {
-=======
-		if(locador == null) {
-			return null;
-		}
-		for (Locatario locatario : locador){
->>>>>>> branch 'master' of https://github.com/MarceloRezin/SGBE
+		for (Locatario locatario : locatarios){
+			
 			if(locatario.getNomeCompleto() == nome) {
 				return locatario;
 			}
-
 		}
 		return null;		
 	}
 	
-	//Conslta pela Serie e Retorna a Turma.
+	//Conslta pela serie e retorna a turma.
 	public ArrayList<Locatario> consultaPorSerie(String serie) {
-		if(locador == null) {
-			return null;
-		}
-		ArrayList<Locatario> turma = null;
-		//Percorre o Array Buscando pela Serie e Armazenando em Turma.
-		for(Locatario locatario : locador) {			
+		
+		ArrayList<Locatario> turma = new ArrayList<>();
+		
+		//Percorre o Array buscando pela serie e armazenando em turma.
+		for(Locatario locatario : locatarios) {			
 			if(locatario.getSerie() == serie) {
 				turma.add(locatario);
 			}			
 		}
+		
 		return turma;
 	}
 	
-	
-	public void addLocador(Locatario locador) {
-		this.locador.add(locador);
+	//Adiciona um locador a lista
+	public void addLocatario(Locatario locatario) {
+		this.locatarios.add(locatario);
 	}
 	
 
-	public void removeLocador(Locatario locador) {
-		if(locador == null) {
-			return;
-		}
-		this.locador.remove(locador);		
+	//Remove o locador d
+	public void removeLocatario(Locatario locatario) {
+		this.locatarios.remove(locatario);		
 	}
 		
 }
