@@ -1,21 +1,16 @@
 package telas;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import locatario.Locatario;
-
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.concurrent.Future;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
@@ -23,26 +18,7 @@ public class TelaGerenciarLocatario extends JFrame {
 
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaGerenciarLocatario frame = new TelaGerenciarLocatario(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public TelaGerenciarLocatario(Future<ArrayList<Locatario>> future) {
+	public TelaGerenciarLocatario(ArrayList<Locatario> locatarios, TelaPrincipal tp) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,10 +63,8 @@ public class TelaGerenciarLocatario extends JFrame {
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				TelaPrincipal tp = new TelaPrincipal();
+			
 				tp.setVisible(true);
-				
 				dispose();
 			}
 		});

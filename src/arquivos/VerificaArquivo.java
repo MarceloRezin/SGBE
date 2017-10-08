@@ -37,7 +37,7 @@ public class VerificaArquivo implements Callable<Void>{
 
 	@Override
 	public Void call() throws Exception {
-		verificaECriaDiretorio(dir);
+		verificaECriaDiretorio(dir);	
 		
 		return null;
 	}
