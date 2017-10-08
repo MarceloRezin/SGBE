@@ -2,21 +2,17 @@ package arquivos;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
-
 import com.google.gson.Gson;
-
 import locatario.Locatario;
 
-public class LeJsonLocatario implements Callable<ArrayList<Locatario>> {
+public class LeJsonLocatario extends LeJSON implements Callable<ArrayList<Locatario>> {
 	
-	private Diretorio diretorio = Diretorio.DIR_LOCATARIOS;
-	
-	public ArrayList<Locatario> leLocatario(Diretorio diretorio) {
+	public ArrayList<Locatario> leLocatario() {
 		ArrayList<Locatario> locatarios = new ArrayList<>();
 		
 		Gson gson = new Gson();
 		
-		ArrayList<Object> listaObjs = new LeJSON().leJSON(diretorio);
+		ArrayList<Object> listaObjs = leJSON(Diretorio.DIR_LOCATARIOS);
 		
 		if(listaObjs == null) {
 			listaObjs = new ArrayList<>();
@@ -33,7 +29,7 @@ public class LeJsonLocatario implements Callable<ArrayList<Locatario>> {
 
 	@Override
 	public ArrayList<Locatario> call() throws Exception {
-		return leLocatario(diretorio);
+		return leLocatario();
 	}
 
 }
