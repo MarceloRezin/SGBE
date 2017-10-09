@@ -1,31 +1,33 @@
 package telas;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import arquivos.Diretorio;
+import arquivos.GravaJSON;
 import locatario.Locatario;
-
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
 import java.awt.Component;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class TelaAdicionarLocatario extends JFrame {
 
 	private JPanel contentPane;
+	
 	private JTextField campoNome;
 	private JTextField campoData;
 	private JTextField campoEndereco;
@@ -33,27 +35,19 @@ public class TelaAdicionarLocatario extends JFrame {
 	private JTextField campoSerie;
 	private JTextField campoPai;
 	private JTextField campoMãe;
+	
+	private JLabel lAvisoNome;
+	private JLabel lAvisoSerie;
+	private JLabel lAvisoData;
+	private JLabel lAvisoEndereco;
+	private JLabel lAvisoReferencia;
+	private JLabel lAvisoPai;
+	private JLabel lAvisoMae;
+	
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaAdicionarLocatario frame = new TelaAdicionarLocatario();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public TelaAdicionarLocatario() {
+	private static final ExecutorService threadpool = Executors.newFixedThreadPool(1);
+	
+	public TelaAdicionarLocatario(ArrayList<Locatario> locatarios, TelaGerenciarLocatario tgl) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,7 +77,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut);
 		
-		JLabel lAvisoNome = new JLabel("");
+		lAvisoNome = new JLabel("");
 		panel.add(lAvisoNome);
 		
 		JLabel lblSrie = new JLabel("Série:");
@@ -96,7 +90,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_3);
 		
-		JLabel lAvisoSerie = new JLabel("");
+		lAvisoSerie = new JLabel("");
 		panel.add(lAvisoSerie);
 		
 		JLabel lblDataDeNascimento = new JLabel("Data de Nascimento:");
@@ -109,7 +103,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_1);
 		
-		JLabel lAvisoData = new JLabel("");
+		lAvisoData = new JLabel("");
 		panel.add(lAvisoData);
 		
 		JLabel lblEndereo = new JLabel("Endereço:");
@@ -122,7 +116,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_2);
 		
-		JLabel lAvisoEndereco = new JLabel("");
+		lAvisoEndereco = new JLabel("");
 		panel.add(lAvisoEndereco);
 		
 		JLabel lblReferncia = new JLabel("Referência:");
@@ -135,7 +129,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_4);
 		
-		JLabel lAvisoReferencia = new JLabel("");
+		lAvisoReferencia = new JLabel("");
 		panel.add(lAvisoReferencia);
 		
 		JLabel lblNomeDoPai = new JLabel("Nome do Pai:");
@@ -148,7 +142,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_5);
 		
-		JLabel lAvisoPai = new JLabel("");
+		lAvisoPai = new JLabel("");
 		panel.add(lAvisoPai);
 		
 		JLabel lblNomeDaMe = new JLabel("Nome da Mãe:");
@@ -161,7 +155,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		Component horizontalStrut_6 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_6);
 		
-		JLabel lAvisoMae = new JLabel("");
+		lAvisoMae = new JLabel("");
 		panel.add(lAvisoMae);
 		
 		JPanel panel_1 = new JPanel();
@@ -171,13 +165,22 @@ public class TelaAdicionarLocatario extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TelaGerenciarLocatario tgl = new TelaGerenciarLocatario(null);
 				tgl.setVisible(true);
 				dispose();
 			}
 		});
 		btnCancelar.setIcon(new ImageIcon(TelaAdicionarLocatario.class.getResource("/icones/i_cancelar_16.png")));
 		panel_1.add(btnCancelar);
+		
+		
+		ArrayList<JLabel> avisos = new ArrayList<>();
+		avisos.add(lAvisoEndereco);
+		avisos.add(lAvisoData);
+		avisos.add(lAvisoMae);
+		avisos.add(lAvisoNome);
+		avisos.add(lAvisoPai);
+		avisos.add(lAvisoReferencia);
+		avisos.add(lAvisoSerie);
 		
 		JButton btnLimparTudo = new JButton("Limpar Tudo");
 		btnLimparTudo.addActionListener(new ActionListener() {
@@ -191,21 +194,64 @@ public class TelaAdicionarLocatario extends JFrame {
 				campoReferencia.setText("");
 				campoSerie.setText("");
 				
-				
+				for (JLabel aviso : avisos) {
+					aviso.setText("");
+				}
 			}
 		});
-		panel_1.add(btnLimparTudo);
+		panel_1.add(btnLimparTudo);	
 		
 		JButton btnConcluir = new JButton("Concluir");
 		btnConcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				Locatario locatario = new Locatario(campoNome.getText(), campoData.getText(), campoEndereco.getText(), campoReferencia.getText(), campoSerie.getText(), campoPai.getText(), campoMãe.getText());
+				for (JLabel aviso : avisos) {
+					aviso.setText("");
+				}
+				
+				
+				if(verificaCampos()) {
+					
+					Locatario locatario = new Locatario(campoNome.getText(), campoData.getText(), campoEndereco.getText(), campoReferencia.getText(), campoSerie.getText(), campoPai.getText(), campoMãe.getText());
+					locatarios.add(locatario);
+					
+					threadpool.submit(new GravaJSON<>(locatarios, Diretorio.DIR_LOCATARIOS));
+					
+					tgl.setVisible(true);
+					dispose();
+					
+					
+				}
 				
 			}
 		});
 		btnConcluir.setIcon(new ImageIcon(TelaAdicionarLocatario.class.getResource("/icones/i_concluir_16.png")));
 		panel_1.add(btnConcluir);
+	}
+	
+	private boolean verificaCampos() {
+		
+		boolean verificacao = false;
+
+		if(campoNome.getText().trim().isEmpty()) {
+			lAvisoNome.setText("O campo acima está vazio!");
+		}else if(campoSerie.getText().trim().isEmpty()) {
+			lAvisoSerie.setText("O campo acima está vazio!");
+		}else if(!campoData.getText().matches("\\d{2}/\\d{2}/\\d{4}")) {
+			lAvisoData.setText("A data deve ser DD/MM/AAAA");
+		}else if(campoEndereco.getText().trim().isEmpty()) {
+			lAvisoEndereco.setText("O campo acima está vazio!");
+		}else if(campoReferencia.getText().trim().isEmpty()) {
+			lAvisoReferencia.setText("O campo acima está vazio!");
+		}else if(campoPai.getText().trim().isEmpty()) {
+			lAvisoPai.setText("O campo acima está vazio!");
+		}else if(campoMãe.getText().trim().isEmpty()) {
+			lAvisoMae.setText("O campo acima está vazio!");
+		}else{
+			verificacao = true;
+		}
+		
+		return verificacao;
 	}
 
 }

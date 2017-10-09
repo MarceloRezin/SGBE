@@ -17,10 +17,11 @@ import java.awt.event.ActionEvent;
 public class TelaGerenciarLocatario extends JFrame {
 
 	private JPanel contentPane;
+	
 
 	public TelaGerenciarLocatario(ArrayList<Locatario> locatarios, TelaPrincipal tp) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
-
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 243);
 		contentPane = new JPanel();
@@ -32,13 +33,15 @@ public class TelaGerenciarLocatario extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new GridLayout(2, 2, 10, 10));
 		
+		TelaGerenciarLocatario tgl = this;
+		
 		JButton btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				TelaAdicionarLocatario tal = new TelaAdicionarLocatario();
+				TelaAdicionarLocatario tal = new TelaAdicionarLocatario(locatarios, tgl);
 				tal.setVisible(true);
-				dispose();
+				setVisible(false);
 			}
 		});
 		panel.add(btnAdicionar);

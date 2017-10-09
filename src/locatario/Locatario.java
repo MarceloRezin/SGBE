@@ -23,7 +23,7 @@ public class Locatario {
 		super();
 		
 		this.nomeCompleto = nomeCompleto.replaceAll(" ", "+");
-		this.dataNascimento = dataNascimento.replaceAll(" ", "+");
+		this.dataNascimento = dataNascimento.replaceAll("/", "-");
 		this.endereco = endereco.replaceAll(" ", "+");
 		this.referencia = referencia.replaceAll(" ", "+");
 		this.serie = serie.replaceAll(" ", "+");
@@ -39,10 +39,10 @@ public class Locatario {
 		this.nomeCompleto = nomeCompleto.replaceAll(" ", "+");
 	}
 	public String getDataNascimento() {
-		return dataNascimento.replaceAll("\\+", " ");
+		return dataNascimento.replaceAll("-", "/");
 	}
 	public void setDataNascimento(String dataNascimento) {
-		this.dataNascimento = dataNascimento.replaceAll(" ", "+");
+		this.dataNascimento = dataNascimento.replaceAll("/", "-");
 	}
 	public String getEndereco() {
 		return endereco.replaceAll("\\+", " ");
@@ -80,7 +80,7 @@ public class Locatario {
 	public String toString(){
 		
 		return "Nome: " + nomeCompleto.replaceAll("\\+", " ") + "\n" +
-				"Data Nascimento: "+ dataNascimento.replaceAll("\\+", " ") + "\n" +
+				"Data Nascimento: "+ dataNascimento.replaceAll("-", "/") + "\n" +
 				"Endereço: "+ endereco.replaceAll("\\+", " ") + "\n" +
 				"Referencia: "+ referencia.replaceAll("\\+", " ") + "\n" + 
 				"Série: "+ serie.replaceAll("\\+", " ") + "\n" +
