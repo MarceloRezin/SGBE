@@ -1,32 +1,36 @@
 package arquivos;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
-
 import com.google.gson.Gson;
-
+import com.google.gson.reflect.TypeToken;
 import livro.Livro;
 
-public class LeJsonLivro extends LeJSON implements Callable<ArrayList<Livro>> {
+public class LeJsonLivro implements Callable<ArrayList<Livro>> {
 	
 	public ArrayList<Livro> leJSONLivro() {
-		ArrayList<Livro> livro = new ArrayList<>();
 		
-		Gson gson = new Gson();
+		Type type = new TypeToken<ArrayList<Livro>>() {}.getType();
 		
-		ArrayList<Object> listaObjs = leJSON(Diretorio.DIR_LIVROS);
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(Diretorio.DIR_RAIZ.diretorio + Diretorio.DIR_LIVROS.diretorio));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		ArrayList<Livro> livros = new Gson().fromJson(br, type);
 		
-		if(listaObjs == null) {
-			listaObjs = new ArrayList<>();
+		if(livros == null) {
+			livros = new ArrayList<>();
 		}
 		
-		for(Object ob : listaObjs) {
-			Livro l = gson.fromJson(ob.toString(), Livro.class);
-			
-			livro.add(l);
-		}
-		
-		return livro;
+		return livros;
 	}
 
 	@Override
