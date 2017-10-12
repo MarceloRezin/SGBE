@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class TelaAdicionarLocatario extends JFrame {
@@ -78,6 +79,8 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(horizontalStrut);
 		
 		lAvisoNome = new JLabel("");
+		lAvisoNome.setVerticalAlignment(SwingConstants.TOP);
+		lAvisoNome.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lAvisoNome);
 		
 		JLabel lblSrie = new JLabel("Série:");
