@@ -3,13 +3,12 @@
  */
 
 package livro;
-//Importação da Bibliotecas Nescessaria.
+
 import java.util.Date;
 import locatario.Locatario;
 
 public class Emprestimo {
 	
-	//Declaração de Variaveis.
 	private Locatario locador;
 	private Livro livro;
 	private Date data;
@@ -60,21 +59,20 @@ public class Emprestimo {
 	//Retorno da String com todos os dados formatados.
 	@Override
 	public String toString() {
-		//Atribui a verificação de Atraso no Emprestimo.
-		String at;		
+		//Atribui a verificÃ£o de Atraso no Emprestimo.
+		
+		String at = "NÃ£o";		
+		
 		if(atraso) {
 			at = "Sim";
 		}
-		else {
-			at = "Em dia";
-		}
 		
 		
-		return "Locador: " + locador + "\n" +
-		"Livro: " + livro + "\n" +
-		"Data: " + data + "/n" +
-		"Entrega: " + entrega + "/n" +
-		"Atrasado:" + at;
+		return  "Locador: " + locador + "\n" +
+				"Livro: " + livro + "\n" +
+				"Data: " + data + "/n" +
+				"Entrega: " + entrega + "/n" +
+				"Atrasado:" + at;
 	}
 	
 	
