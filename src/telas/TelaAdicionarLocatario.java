@@ -1,28 +1,30 @@
 package telas;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import arquivos.Diretorio;
 import arquivos.GravaJSON;
 import locatario.Locatario;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.GridLayout;
-import javax.swing.JTextField;
-import java.awt.Component;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class TelaAdicionarLocatario extends JFrame {
@@ -94,6 +96,8 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(horizontalStrut_3);
 		
 		lAvisoSerie = new JLabel("");
+		lAvisoSerie.setVerticalAlignment(SwingConstants.TOP);
+		lAvisoSerie.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lAvisoSerie);
 		
 		JLabel lblDataDeNascimento = new JLabel("Data de Nascimento:");
@@ -107,6 +111,8 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(horizontalStrut_1);
 		
 		lAvisoData = new JLabel("");
+		lAvisoData.setVerticalAlignment(SwingConstants.TOP);
+		lAvisoData.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lAvisoData);
 		
 		JLabel lblEndereo = new JLabel("Endereço:");
@@ -120,6 +126,8 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(horizontalStrut_2);
 		
 		lAvisoEndereco = new JLabel("");
+		lAvisoEndereco.setVerticalAlignment(SwingConstants.TOP);
+		lAvisoEndereco.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lAvisoEndereco);
 		
 		JLabel lblReferncia = new JLabel("Referência:");
@@ -133,6 +141,8 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(horizontalStrut_4);
 		
 		lAvisoReferencia = new JLabel("");
+		lAvisoReferencia.setVerticalAlignment(SwingConstants.TOP);
+		lAvisoReferencia.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lAvisoReferencia);
 		
 		JLabel lblNomeDoPai = new JLabel("Nome do Pai:");
@@ -146,6 +156,8 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(horizontalStrut_5);
 		
 		lAvisoPai = new JLabel("");
+		lAvisoPai.setVerticalAlignment(SwingConstants.TOP);
+		lAvisoPai.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lAvisoPai);
 		
 		JLabel lblNomeDaMe = new JLabel("Nome da Mãe:");
@@ -159,6 +171,8 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(horizontalStrut_6);
 		
 		lAvisoMae = new JLabel("");
+		lAvisoMae.setVerticalAlignment(SwingConstants.TOP);
+		lAvisoMae.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lAvisoMae);
 		
 		JPanel panel_1 = new JPanel();
@@ -186,6 +200,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		avisos.add(lAvisoSerie);
 		
 		JButton btnLimparTudo = new JButton("Limpar Tudo");
+		btnLimparTudo.setIcon(new ImageIcon(TelaAdicionarLocatario.class.getResource("/icones/i_borracha_16.png")));
 		btnLimparTudo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -220,6 +235,7 @@ public class TelaAdicionarLocatario extends JFrame {
 					
 					threadpool.submit(new GravaJSON<>(locatarios, Diretorio.DIR_LOCATARIOS));
 					
+					JOptionPane.showMessageDialog(null, "Locatário adicionado!", "Concluido", JOptionPane.INFORMATION_MESSAGE);
 					tgl.setVisible(true);
 					dispose();
 					
@@ -230,6 +246,8 @@ public class TelaAdicionarLocatario extends JFrame {
 		});
 		btnConcluir.setIcon(new ImageIcon(TelaAdicionarLocatario.class.getResource("/icones/i_concluir_16.png")));
 		panel_1.add(btnConcluir);
+		
+		getRootPane().setDefaultButton(btnConcluir);
 	}
 	
 	private boolean verificaCampos() {

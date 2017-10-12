@@ -152,9 +152,9 @@ public class TelaEmprestimo extends JFrame {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				TelaPrincipal tp = new TelaPrincipal();
-				tp.setVisible(true);
-				setVisible(false);
+				//TelaPrincipal tp = new TelaPrincipal();
+				//tp.setVisible(true);
+				//setVisible(false);
 			}
 		});
 		btnCancelar.setIcon(new ImageIcon(TelaEmprestimo.class.getResource("/icones/i_cancelar_16.png")));
