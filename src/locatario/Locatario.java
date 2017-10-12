@@ -16,7 +16,6 @@ public class Locatario {
 	private String nomePai;
 	private String nomeMae;
 	
-	
 	//Construtor com Parametro.
 	public Locatario(String nomeCompleto, String dataNascimento, String endereco, String referencia, String serie, String nomePai,
 			String nomeMae) {

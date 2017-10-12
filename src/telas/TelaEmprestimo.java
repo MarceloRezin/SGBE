@@ -86,9 +86,9 @@ public class TelaEmprestimo extends JFrame {
 		btnLocalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String s="";
-				TelaLocalizarLocatario tl = new TelaLocalizarLocatario(estaClasse, s);
-				tl.setVisible(true);
-				setVisible(false);
+				//TelaLocalizarLocatario tl = new TelaLocalizarLocatario(estaClasse, s);
+				//tl.setVisible(true);
+				//setVisible(false);
 				
 			}
 		});

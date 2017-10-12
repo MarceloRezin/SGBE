@@ -41,7 +41,7 @@ public class Main {
 		Future<Void> future3 = threadpool.submit(va3);
 		
 		while(!future.isDone() && !future1.isDone() && !future2.isDone() && !future3.isDone()) {
-			System.out.println("Verificando...");
+			
 		}
 		
 		//Recuperando todos os registros simultaneamente
@@ -55,9 +55,7 @@ public class Main {
 		Future<ArrayList<Emprestimo>> fE = threadpool.submit(lje);
 		Future<ArrayList<Emprestimo>> fA = threadpool.submit(lja);
 		
-		while(!fL.isDone() && !fLi.isDone() && !fE.isDone() && !fA.isDone()) {
-			System.out.println("Lendo...");
-		}
+		while(!fL.isDone() && !fLi.isDone() && !fE.isDone() && !fA.isDone()) {}
 		
 		try {
 			ArrayList<Locatario> locatarios = fL.get();
