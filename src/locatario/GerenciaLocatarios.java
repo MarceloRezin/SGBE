@@ -19,16 +19,27 @@ public class GerenciaLocatarios {
 		this.locatarios = locatarios;
 	}
 
-	//Consulta pelo Nome e Retorna o Locador.
-	public Locatario consultaPorNome(String nome) {
-		//Percorre o Array Buscando pelo Nome.
+	//Consulta todos os nomes que contem em si a string passada
+	public ArrayList<Locatario> consulta(String nome) {
+		ArrayList<Locatario> locs = new ArrayList<>();		
+		
 		for (Locatario locatario : locatarios){
-			
-			if(locatario.getNomeCompleto() == nome) {
-				return locatario;
+			if(locatario.getNomeCompleto().toLowerCase().contains(nome.toLowerCase())) {
+				locs.add(locatario);
 			}
 		}
-		return null;		
+		return locs;		
+	}
+	
+	//Retorna um locatario a partir do nome em uma lista ja refinada
+	public Locatario consultaPorNome(String nome, ArrayList<Locatario> busca) {
+		for (Locatario loc : busca) {
+			if(loc.getNomeCompleto().equals(nome)) {
+				return loc;
+			}
+		}
+		
+		return null;
 	}
 	
 	//Conslta pela serie e retorna a turma.
@@ -38,7 +49,7 @@ public class GerenciaLocatarios {
 		
 		//Percorre o Array buscando pela serie e armazenando em turma.
 		for(Locatario locatario : locatarios) {			
-			if(locatario.getSerie() == serie) {
+			if(locatario.getSerie().toLowerCase().contains(serie.toLowerCase())) {
 				turma.add(locatario);
 			}			
 		}
