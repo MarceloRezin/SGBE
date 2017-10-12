@@ -22,70 +22,70 @@ public class Locatario {
 			String nomeMae) {
 		super();
 		
-		this.nomeCompleto = nomeCompleto.replaceAll(" ", "+");
-		this.dataNascimento = dataNascimento.replaceAll("/", "-");
-		this.endereco = endereco.replaceAll(" ", "+");
-		this.referencia = referencia.replaceAll(" ", "+");
-		this.serie = serie.replaceAll(" ", "+");
-		this.nomePai = nomePai.replaceAll(" ", "+");
-		this.nomeMae = nomeMae.replaceAll(" ", "+");
+		this.nomeCompleto = nomeCompleto;
+		this.dataNascimento = dataNascimento;
+		this.endereco = endereco;
+		this.referencia = referencia;
+		this.serie = serie;
+		this.nomePai = nomePai;
+		this.nomeMae = nomeMae;
 	}
 	
 	//Gets e Sets
 	public String getNomeCompleto() {
-		return nomeCompleto.replaceAll("\\+", " ");
+		return nomeCompleto;
 	}
 	public void setNomeCompleto(String nomeCompleto) {
-		this.nomeCompleto = nomeCompleto.replaceAll(" ", "+");
+		this.nomeCompleto = nomeCompleto;
 	}
 	public String getDataNascimento() {
-		return dataNascimento.replaceAll("-", "/");
+		return dataNascimento;
 	}
 	public void setDataNascimento(String dataNascimento) {
-		this.dataNascimento = dataNascimento.replaceAll("/", "-");
+		this.dataNascimento = dataNascimento;
 	}
 	public String getEndereco() {
-		return endereco.replaceAll("\\+", " ");
+		return endereco;
 	}
 	public void setEndereco(String endereco) {
-		this.endereco = endereco.replaceAll(" ", "+");
+		this.endereco = endereco;
 	}
 	public String getReferencia() {
-		return referencia.replaceAll("\\+", " ");
+		return referencia;
 	}
 	public void setReferencia(String referencia) {
-		this.referencia = referencia.replaceAll(" ", "+");
+		this.referencia = referencia;
 	}
 	public String getSerie() {
-		return serie.replaceAll("\\+", " ");
+		return serie;
 	}
 	public void setSerie(String serie) {
-		this.serie = serie.replaceAll(" ", "+");
+		this.serie = serie;
 	}
 	public String getNomePai() {
-		return nomePai.replaceAll("\\+", " ");
+		return nomePai;
 	}
 	public void setNomePai(String nomePai) {
-		this.nomePai = nomePai.replaceAll(" ", "+");
+		this.nomePai = nomePai;
 	}
 	public String getNomeMae() {
-		return nomeMae.replaceAll("\\+", " ");
+		return nomeMae;
 	}
 	public void setNomeMae(String nomeMae) {
-		this.nomeMae = nomeMae.replaceAll(" ", "+");
+		this.nomeMae = nomeMae;
 	}
 	
 	//Retorno da String com todos os dados formatados.
 	@Override
 	public String toString(){
 		
-		return "Nome: " + nomeCompleto.replaceAll("\\+", " ") + "\n" +
-				"Data Nascimento: "+ dataNascimento.replaceAll("-", "/") + "\n" +
-				"Endereço: "+ endereco.replaceAll("\\+", " ") + "\n" +
-				"Referencia: "+ referencia.replaceAll("\\+", " ") + "\n" + 
-				"Série: "+ serie.replaceAll("\\+", " ") + "\n" +
-				"Nome do Pai: "+ nomePai.replaceAll("\\+", " ") + "\n" +
-				"Nome da Mãe: "+ nomeMae.replaceAll("\\+", " ") + "\n";
+		return "Nome: " + nomeCompleto + "\n" +
+				"Data Nascimento: "+ dataNascimento + "\n" +
+				"Endereço: "+ endereco + "\n" +
+				"Referencia: "+ referencia + "\n" + 
+				"Série: "+ serie + "\n" +
+				"Nome do Pai: "+ nomePai + "\n" +
+				"Nome da Mãe: "+ nomeMae + "\n";
 	}
 	
 	
