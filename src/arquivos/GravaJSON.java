@@ -18,24 +18,8 @@ public class GravaJSON<T> implements Callable<Void> {
 	}
 	
 	private void gravarJSON(ArrayList<T> locatarios, Diretorio dir) {
-		Gson gson = new Gson();
 		
-		
-		String json = "[";
-		
-		int i = 1; // contador para saber se é a ultima iteração do for each
-		
-		for (T obj : lista) {
-			
-			json+= gson.toJson(obj);
-			
-			if(i != lista.size()) {
-				json += ",";
-			}else {
-				json += "]";
-			}
-			i++;
-		}
+		String json = new Gson().toJson(locatarios);
 		
 		try {
 			
