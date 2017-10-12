@@ -12,18 +12,19 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class TelaGerenciarLocatario extends JFrame {
 
 	private JPanel contentPane;
-	
 
 	public TelaGerenciarLocatario(ArrayList<Locatario> locatarios, TelaPrincipal tp) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
+
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 243);
+		setBounds(100, 100, 450, 190);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -36,6 +37,7 @@ public class TelaGerenciarLocatario extends JFrame {
 		TelaGerenciarLocatario tgl = this;
 		
 		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.setIcon(new ImageIcon(TelaGerenciarLocatario.class.getResource("/icones/i_add_locatario_16.png")));
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -46,7 +48,16 @@ public class TelaGerenciarLocatario extends JFrame {
 		});
 		panel.add(btnAdicionar);
 		
+		JFrame frame = this;
+		
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TelaLocalizarLocatario(frame, "Selecione o locatário a ser removido", locatarios, false).setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnRemover.setIcon(new ImageIcon(TelaGerenciarLocatario.class.getResource("/icones/i_rem_locatario_16.png")));
 		panel.add(btnRemover);
 		
 		JButton btnEditar = new JButton("Editar");
@@ -64,6 +75,7 @@ public class TelaGerenciarLocatario extends JFrame {
 		panel_1.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.setIcon(new ImageIcon(TelaGerenciarLocatario.class.getResource("/icones/i_seta_esq_16.png")));
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			
