@@ -56,7 +56,12 @@ public class Biblioteca {
 	}	
 	
 	public void AddLivro(Livro livro) {
-		this.livros.add(livro);
+		for (Livro l : livros) {
+			if(l.getNumeroRegistro() == livro.getNumeroRegistro()) {
+				return;
+			}			
+		}
+			this.livros.add(livro);
 	}
 	
 	public void RemoveLivro(Livro livro) {
