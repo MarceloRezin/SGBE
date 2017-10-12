@@ -2,11 +2,11 @@ package telas;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -23,41 +23,28 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import locatario.GerenciaLocatarios;
+import locatario.Locatario;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+
 
 @SuppressWarnings("serial")
 public class TelaLocalizarLocatario extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField campoPesquisa;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					String s = "";
-					TelaLocalizarLocatario frame = new TelaLocalizarLocatario(null, s);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	
-	String nomeLocatario =  new String();
+	private String nomeLocatario =  new String();
+	private GerenciaLocatarios gl;
+	ArrayList<Locatario> busca;
 	
-	public TelaLocalizarLocatario(TelaEmprestimo te, String s) {
+	//op=0 apagar
+	//op=1 buscar
+	
+	public TelaLocalizarLocatario(JFrame telaAnterior, String mensagem, ArrayList<Locatario> locatarios, boolean op) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
-		
-		
-		this.nomeLocatario = s;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 458, 331);
@@ -66,8 +53,6 @@ public class TelaLocalizarLocatario extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		
-		
 		JPanel panel1 = new JPanel();
 		contentPane.add(panel1, BorderLayout.SOUTH);
 		panel1.setLayout(new GridLayout(1, 3, 0, 0));
@@ -75,7 +60,7 @@ public class TelaLocalizarLocatario extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				te.setVisible(true);
+				telaAnterior.setVisible(true);
 				dispose();
 			}
 		});
@@ -85,13 +70,20 @@ public class TelaLocalizarLocatario extends JFrame {
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		panel1.add(horizontalStrut);
 		
+		TelaLocalizarLocatario tlc = this;
+		
 		JButton btnSelecionar = new JButton("Selecionar");
 		btnSelecionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				te.lNome.setText(nomeLocatario);
-				te.setVisible(true);
-				dispose();
 				
+				if(!nomeLocatario.isEmpty()) {
+					Locatario encontrado = gl.consultaPorNome(nomeLocatario, busca);
+					
+					if(op == false) {
+						new TelaRemoverLocatario(telaAnterior, tlc, encontrado).setVisible(true);
+						setVisible(false);
+					}
+				}	
 			}
 		});
 		btnSelecionar.setIcon(new ImageIcon(TelaLocalizarLocatario.class.getResource("/icones/i_concluir_16.png")));
@@ -108,39 +100,72 @@ public class TelaLocalizarLocatario extends JFrame {
 		String[] tiposDeBuscas = {"Nome", "Série"};
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setBounds(9, 20, 145, 24);
 		for(int i=0; i<tiposDeBuscas.length; i++) {
 			comboBox.addItem("Busca por " + tiposDeBuscas[i]);
 		}
-		comboBox.addActionListener (new ActionListener () {
-		    public void actionPerformed(ActionEvent e) {
-		       
-		    }
-		});
 		
 		campoPesquisa = new JTextField();
-		campoPesquisa.setBounds(159, 20, 168, 25);
 		campoPesquisa.setColumns(10);
 		
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setIcon(new ImageIcon(TelaLocalizarLocatario.class.getResource("/icones/i_buscar_locatario_16.png")));
-		btnBuscar.setBounds(331, 20, 110, 25);
-		panelTipoBusca.setLayout(null);
-		panelTipoBusca.add(comboBox);
-		panelTipoBusca.add(campoPesquisa);
-		panelTipoBusca.add(btnBuscar);
-		 
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		
-		listModel.addElement("Marcelo Minato Rezin");
-		
 		JList<String> listResultado = new JList<String>();
-		listResultado.setBounds(9, 60, 430, 150);
-		panelTipoBusca.add(listResultado);
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!campoPesquisa.getText().trim().isEmpty()) {
+					listModel.removeAllElements();
+					
+					gl = new GerenciaLocatarios(locatarios);
+					
+					
+					if(comboBox.getSelectedIndex() == 0) {
+						busca = gl.consulta(campoPesquisa.getText());
+						
+					}else {
+						busca = gl.consultaPorSerie(campoPesquisa.getText());
+						
+					}
+					
+					for (Locatario loc : busca) {
+						listModel.addElement(loc.getNomeCompleto());
+					}
+				}
+			}
+		});
+		btnBuscar.setIcon(new ImageIcon(TelaLocalizarLocatario.class.getResource("/icones/i_buscar_locatario_16.png")));
+		 
 		
 		listResultado.setModel(listModel);
+		GroupLayout gl_panelTipoBusca = new GroupLayout(panelTipoBusca);
+		gl_panelTipoBusca.setHorizontalGroup(
+			gl_panelTipoBusca.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTipoBusca.createSequentialGroup()
+					.addGap(4)
+					.addGroup(gl_panelTipoBusca.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelTipoBusca.createSequentialGroup()
+							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
+							.addGap(5)
+							.addComponent(campoPesquisa, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
+							.addGap(4)
+							.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
+						.addComponent(listResultado, GroupLayout.PREFERRED_SIZE, 430, GroupLayout.PREFERRED_SIZE)))
+		);
+		gl_panelTipoBusca.setVerticalGroup(
+			gl_panelTipoBusca.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTipoBusca.createSequentialGroup()
+					.addGap(3)
+					.addGroup(gl_panelTipoBusca.createParallelGroup(Alignment.LEADING)
+						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(campoPesquisa, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addGap(15)
+					.addComponent(listResultado, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+		);
+		panelTipoBusca.setLayout(gl_panelTipoBusca);
 
-		JLabel lblBuscarLocatrio = new JLabel("Buscar Locatário");
+		JLabel lblBuscarLocatrio = new JLabel(mensagem);
 		lblBuscarLocatrio.setFont(new Font("Dialog", Font.BOLD, 17));
 		contentPane.add(lblBuscarLocatrio, BorderLayout.NORTH);
 		
@@ -155,4 +180,6 @@ public class TelaLocalizarLocatario extends JFrame {
             }
         });
 	}
+	
+	
 }
