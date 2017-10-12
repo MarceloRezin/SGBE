@@ -80,7 +80,7 @@ public class TelaLocalizarLocatario extends JFrame {
 					Locatario encontrado = gl.consultaPorNome(nomeLocatario, busca);
 					
 					if(op == false) {
-						new TelaRemoverLocatario(telaAnterior, tlc, encontrado).setVisible(true);
+						new TelaRemoverLocatario(telaAnterior, tlc, locatarios, encontrado).setVisible(true);
 						setVisible(false);
 					}
 				}	
