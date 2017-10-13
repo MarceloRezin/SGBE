@@ -41,9 +41,9 @@ public class TelaLocalizarLocatario extends JFrame {
 	ArrayList<Locatario> busca;
 	
 	//op=0 apagar
-	//op=1 buscar
+	//op=1 consultar
 	
-	public TelaLocalizarLocatario(JFrame telaAnterior, String mensagem, ArrayList<Locatario> locatarios, boolean op) {
+	public TelaLocalizarLocatario(JFrame telaAnterior, String mensagem, ArrayList<Locatario> locatarios, int op) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,7 +79,7 @@ public class TelaLocalizarLocatario extends JFrame {
 				if(!nomeLocatario.isEmpty()) {
 					Locatario encontrado = gl.consultaPorNome(nomeLocatario, busca);
 					
-					if(op == false) {
+					if(op == 0) {
 						new TelaRemoverLocatario(telaAnterior, tlc, locatarios, encontrado).setVisible(true);
 						setVisible(false);
 					}
