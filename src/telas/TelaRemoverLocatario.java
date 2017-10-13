@@ -21,6 +21,8 @@ import arquivos.Diretorio;
 import arquivos.GravaJSON;
 import locatario.GerenciaLocatarios;
 import locatario.Locatario;
+import javax.swing.JTextArea;
+import java.awt.Color;
 
 @SuppressWarnings("serial")
 public class TelaRemoverLocatario extends JFrame {
@@ -29,8 +31,10 @@ public class TelaRemoverLocatario extends JFrame {
 
 	private static final ExecutorService threadpool = Executors.newFixedThreadPool(1);
 	public TelaRemoverLocatario(JFrame telaAnterior, TelaLocalizarLocatario tlc, ArrayList<Locatario> locatarios, Locatario loc) {
+		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 510, 155);
+		setBounds(100, 100, 510, 273);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -42,15 +46,14 @@ public class TelaRemoverLocatario extends JFrame {
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(new GridLayout(1, 2, 0, 0));
+		panel.setLayout(new GridLayout(1, 1, 0, 0));
 		
-		JLabel lblNome = new JLabel("Nome:");
-		panel.add(lblNome);
 		
-				
-		JLabel lCampoNome = new JLabel(loc.getNomeCompleto());
-		lCampoNome.setFont(new Font("Dialog", Font.BOLD, 14));
-		panel.add(lCampoNome);
+		JTextArea textArea = new JTextArea("\n" + loc.toString());
+		textArea.setBackground(new Color(238, 238, 238));
+		textArea.setFont(new Font("Dialog", Font.BOLD, 15));
+		textArea.setEditable(false);
+		panel.add(textArea);
 		
 		JPanel panel_3 = new JPanel();
 		contentPane.add(panel_3, BorderLayout.SOUTH);
