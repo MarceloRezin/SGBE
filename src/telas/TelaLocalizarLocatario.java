@@ -36,7 +36,7 @@ public class TelaLocalizarLocatario extends JFrame {
 	private JPanel contentPane;
 	private JTextField campoPesquisa;
 	
-	private String nomeLocatario =  new String();
+	private Integer nomeLocatario =  new Integer(-1);
 	private GerenciaLocatarios gl;
 	ArrayList<Locatario> busca;
 	
@@ -77,8 +77,8 @@ public class TelaLocalizarLocatario extends JFrame {
 		btnSelecionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(!nomeLocatario.isEmpty()) {
-					Locatario encontrado = gl.consultaPorNome(nomeLocatario, busca);
+				if(nomeLocatario != -1) {
+					Locatario encontrado = busca.get(nomeLocatario);
 					
 					if(op == 0) {
 						new TelaRemoverLocatario(telaAnterior, tlc, locatarios, encontrado).setVisible(true);
@@ -128,7 +128,7 @@ public class TelaLocalizarLocatario extends JFrame {
 					
 					
 					if(comboBox.getSelectedIndex() == 0) {
-						busca = gl.consulta(campoPesquisa.getText());
+						busca = gl.consultaPorNome(campoPesquisa.getText());
 						
 					}else {
 						busca = gl.consultaPorSerie(campoPesquisa.getText());
@@ -182,7 +182,7 @@ public class TelaLocalizarLocatario extends JFrame {
             @Override
             public void valueChanged(ListSelectionEvent arg0) {
                 if (!arg0.getValueIsAdjusting()) {
-                  nomeLocatario = listResultado.getSelectedValue().toString();
+                  nomeLocatario = listResultado.getSelectedIndex();
                 }
             }
         });

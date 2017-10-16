@@ -20,7 +20,7 @@ public class GerenciaLocatarios {
 	}
 
 	//Consulta todos os nomes que contem em si a string passada
-	public ArrayList<Locatario> consulta(String nome) {
+	public ArrayList<Locatario> consultaPorNome(String nome) {
 		ArrayList<Locatario> locs = new ArrayList<>();		
 		
 		for (Locatario locatario : locatarios){
@@ -29,17 +29,6 @@ public class GerenciaLocatarios {
 			}
 		}
 		return locs;		
-	}
-	
-	//Retorna um locatario a partir do nome em uma lista ja refinada
-	public Locatario consultaPorNome(String nome, ArrayList<Locatario> busca) {
-		for (Locatario loc : busca) {
-			if(loc.getNomeCompleto().equals(nome)) {
-				return loc;
-			}
-		}
-		
-		return null;
 	}
 	
 	//Conslta pela serie e retorna a turma.
