@@ -4,19 +4,21 @@
 
 package livro;
 
+import java.time.LocalDate;
 import java.util.Date;
+
 import locatario.Locatario;
 
 public class Emprestimo {
 	
 	private Locatario locador;
 	private Livro livro;
-	private Date data;
-	private Date entrega;
+	private LocalDate data;
+	private LocalDate entrega;
 	private Boolean atraso;
 		
 	//Construtor com Paramentros.	
-	public Emprestimo(Locatario locador, Livro livro, Date data, Date entrega, Boolean atraso) {
+	public Emprestimo(Locatario locador, Livro livro, LocalDate data, LocalDate entrega, Boolean atraso) {
 		super();
 		this.locador = locador;
 		this.livro = livro;
@@ -37,16 +39,16 @@ public class Emprestimo {
 	public void setLivro(Livro livro) {
 		this.livro = livro;
 	}
-	public Date getData() {
+	public LocalDate getData() {
 		return data;
 	}
-	public void setData(Date data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
-	public Date getEntrega() {
+	public LocalDate getEntrega() {
 		return entrega;
 	}
-	public void setEntrega(Date entrega) {
+	public void setEntrega(LocalDate entrega) {
 		this.entrega = entrega;
 	}
 	public Boolean isAtraso() {
