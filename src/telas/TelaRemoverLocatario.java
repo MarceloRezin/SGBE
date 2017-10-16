@@ -40,7 +40,7 @@ public class TelaRemoverLocatario extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JLabel lblRemoverLocatrio = new JLabel("Remover Locatário");
+		JLabel lblRemoverLocatrio = new JLabel("Remover Usuário");
 		lblRemoverLocatrio.setFont(new Font("Dialog", Font.BOLD, 17));
 		contentPane.add(lblRemoverLocatrio, BorderLayout.NORTH);
 		
@@ -73,28 +73,30 @@ public class TelaRemoverLocatario extends JFrame {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				telaAnterior.setVisible(true);
+				tlc.dispose();
 				dispose();
 			}
 		});
 		btnCancelar.setIcon(new ImageIcon(TelaRemoverLocatario.class.getResource("/icones/i_cancelar_16.png")));
 		panel_3.add(btnCancelar);
 		
-		JButton btnRemover_1 = new JButton("Remover");
-		btnRemover_1.addActionListener(new ActionListener() {
+		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este locatário?", "Apagar:", 0) == JOptionPane.YES_OPTION) {
+				if(JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este usuário?", "Apagar:", 0) == JOptionPane.YES_OPTION) {
 					new GerenciaLocatarios(locatarios).removeLocatario(loc);
 					
 					threadpool.submit(new GravaJSON<>(locatarios, Diretorio.DIR_LOCATARIOS));
 					
-					JOptionPane.showMessageDialog(null, "Locatário Removido!", "Concluido", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Usuário Removido!", "Concluido", JOptionPane.INFORMATION_MESSAGE);
 					telaAnterior.setVisible(true);
+					tlc.dispose();
 					dispose();
 				}
 			}
 		});
-		btnRemover_1.setIcon(new ImageIcon(TelaRemoverLocatario.class.getResource("/icones/i_rem_locatario_16.png")));
-		panel_3.add(btnRemover_1);
+		btnRemover.setIcon(new ImageIcon(TelaRemoverLocatario.class.getResource("/icones/i_rem_locatario_16.png")));
+		panel_3.add(btnRemover);
 	}
 
 }

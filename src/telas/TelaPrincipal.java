@@ -53,17 +53,20 @@ public class TelaPrincipal extends JFrame {
 		btnDevolucao.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_devolcao_32.png")));
 		panel.add(btnDevolucao);
 		
-		JButton btnBuscarLivro = new JButton("Buscar Livro");
-		btnBuscarLivro.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_buscar_livro_32.png")));
-		panel.add(btnBuscarLivro);
-		
-		JButton btnGerLivros = new JButton("Ger. Livros");
-		btnGerLivros.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_ger_livro_32.png")));
-		panel.add(btnGerLivros);
 		
 		TelaPrincipal tp = this;
 		
-		JButton btnGerLocatarios = new JButton("Ger. Locatarios");
+		JButton btnGerLivros = new JButton("Ger. Livros");
+		btnGerLivros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TelaGerenciarLivro(livros, tp).setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnGerLivros.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_ger_livro_32.png")));
+		panel.add(btnGerLivros);
+		
+		JButton btnGerLocatarios = new JButton("Cadastros");
 		btnGerLocatarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -79,6 +82,15 @@ public class TelaPrincipal extends JFrame {
 		JButton btnAtrasos = new JButton("Atrasos");
 		btnAtrasos.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_atraso_32.png")));
 		panel.add(btnAtrasos);
+		
+		JButton btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnSair.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_cancelar_32.png")));
+		panel.add(btnSair);
 		
 		JLabel l1 = new JLabel("Bem vindo ao SGBE!");
 		l1.setFont(new Font("Dialog", Font.BOLD, 17));

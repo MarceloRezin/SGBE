@@ -42,6 +42,7 @@ public class TelaLocalizarLocatario extends JFrame {
 	
 	//op=0 apagar
 	//op=1 consultar
+	//op=2 editar
 	
 	public TelaLocalizarLocatario(JFrame telaAnterior, String mensagem, ArrayList<Locatario> locatarios, int op) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
@@ -81,8 +82,13 @@ public class TelaLocalizarLocatario extends JFrame {
 					
 					if(op == 0) {
 						new TelaRemoverLocatario(telaAnterior, tlc, locatarios, encontrado).setVisible(true);
-						setVisible(false);
+					}else if(op == 1) {
+						new TelaConsultarLocatario(telaAnterior, tlc, encontrado).setVisible(true);
+					}else if(op == 2) {
+						new TelaAdicionarLocatario(telaAnterior, tlc, "Editar Usuário", locatarios, encontrado).setVisible(true);;
 					}
+					
+					setVisible(false);
 				}	
 			}
 		});
@@ -105,6 +111,7 @@ public class TelaLocalizarLocatario extends JFrame {
 		}
 		
 		campoPesquisa = new JTextField();
+		campoPesquisa.setFont(new Font("Dialog", Font.PLAIN, 14));
 		campoPesquisa.setColumns(10);
 		
 		DefaultListModel<String> listModel = new DefaultListModel<String>();

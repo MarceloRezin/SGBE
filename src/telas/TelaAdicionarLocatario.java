@@ -50,7 +50,7 @@ public class TelaAdicionarLocatario extends JFrame {
 
 	private static final ExecutorService threadpool = Executors.newFixedThreadPool(1);
 	
-	public TelaAdicionarLocatario(ArrayList<Locatario> locatarios, TelaGerenciarLocatario tgl) {
+	public TelaAdicionarLocatario(JFrame telaAnterior, TelaLocalizarLocatario tll, String msg, ArrayList<Locatario> locatarios, Locatario loc) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +60,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JLabel lblAdicionarLocatrio = new JLabel("Adicionar Locatário");
+		JLabel lblAdicionarLocatrio = new JLabel(msg);
 		lblAdicionarLocatrio.setFont(new Font("Dialog", Font.BOLD, 17));
 		contentPane.add(lblAdicionarLocatrio, BorderLayout.NORTH);
 		
@@ -70,10 +70,11 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.setLayout(new GridLayout(14, 2, 0, 0));
 		
 		JLabel lblNome = new JLabel("Nome Completo:");
-		lblNome.setFont(new Font("Dialog", Font.BOLD, 12));
+		lblNome.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panel.add(lblNome);
 		
 		campoNome = new JTextField();
+		campoNome.setFont(new Font("Dialog", Font.PLAIN, 14));
 		panel.add(campoNome);
 		campoNome.setColumns(10);
 		
@@ -89,6 +90,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(lblSrie);
 		
 		campoSerie = new JTextField();
+		campoSerie.setFont(new Font("Dialog", Font.PLAIN, 14));
 		panel.add(campoSerie);
 		campoSerie.setColumns(10);
 		
@@ -104,6 +106,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(lblDataDeNascimento);
 		
 		campoData = new JTextField();
+		campoData.setFont(new Font("Dialog", Font.PLAIN, 14));
 		panel.add(campoData);
 		campoData.setColumns(10);
 		
@@ -119,6 +122,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(lblEndereo);
 		
 		campoEndereco = new JTextField();
+		campoEndereco.setFont(new Font("Dialog", Font.PLAIN, 14));
 		panel.add(campoEndereco);
 		campoEndereco.setColumns(10);
 		
@@ -134,6 +138,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(lblReferncia);
 		
 		campoReferencia = new JTextField();
+		campoReferencia.setFont(new Font("Dialog", Font.PLAIN, 14));
 		panel.add(campoReferencia);
 		campoReferencia.setColumns(10);
 		
@@ -149,6 +154,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(lblNomeDoPai);
 		
 		campoPai = new JTextField();
+		campoPai.setFont(new Font("Dialog", Font.PLAIN, 14));
 		panel.add(campoPai);
 		campoPai.setColumns(10);
 		
@@ -164,6 +170,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		panel.add(lblNomeDaMe);
 		
 		campoMãe = new JTextField();
+		campoMãe.setFont(new Font("Dialog", Font.PLAIN, 14));
 		panel.add(campoMãe);
 		campoMãe.setColumns(10);
 		
@@ -182,13 +189,27 @@ public class TelaAdicionarLocatario extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				tgl.setVisible(true);
+				if(loc == null) {
+					telaAnterior.setVisible(true);
+				}else {
+					tll.setVisible(true);
+				}
 				dispose();
 			}
 		});
 		btnCancelar.setIcon(new ImageIcon(TelaAdicionarLocatario.class.getResource("/icones/i_cancelar_16.png")));
 		panel_1.add(btnCancelar);
 		
+		if(loc != null) {
+			campoData.setText(loc.getDataNascimento());
+			campoEndereco.setText(loc.getEndereco());
+			campoMãe.setText(loc.getNomeMae());
+			campoNome.setText(loc.getNomeCompleto());
+			campoNome.setEnabled(false);
+			campoPai.setText(loc.getNomePai());
+			campoReferencia.setText(loc.getReferencia());
+			campoSerie.setText(loc.getSerie());
+		}
 		
 		ArrayList<JLabel> avisos = new ArrayList<>();
 		avisos.add(lAvisoEndereco);
@@ -207,7 +228,9 @@ public class TelaAdicionarLocatario extends JFrame {
 				campoData.setText("");
 				campoEndereco.setText("");
 				campoMãe.setText("");
-				campoNome.setText("");
+				if(loc == null) {
+					campoNome.setText("");
+				}
 				campoPai.setText("");
 				campoReferencia.setText("");
 				campoSerie.setText("");
@@ -227,19 +250,19 @@ public class TelaAdicionarLocatario extends JFrame {
 					aviso.setText("");
 				}
 				
-				
 				if(verificaCampos()) {
 					
 					Locatario locatario = new Locatario(campoNome.getText(), campoData.getText(), campoEndereco.getText(), campoReferencia.getText(), campoSerie.getText(), campoPai.getText(), campoMãe.getText());
-					locatarios.add(locatario);
 					
-					threadpool.submit(new GravaJSON<>(locatarios, Diretorio.DIR_LOCATARIOS));
-					
-					JOptionPane.showMessageDialog(null, "Locatário adicionado!", "Concluido", JOptionPane.INFORMATION_MESSAGE);
-					tgl.setVisible(true);
+					if(loc == null) {
+						locatarios.add(locatario);
+						
+						threadpool.submit(new GravaJSON<>(locatarios, Diretorio.DIR_LOCATARIOS));
+						
+						JOptionPane.showMessageDialog(null, "Usuário adicionado!", "Concluido", JOptionPane.INFORMATION_MESSAGE);
+						telaAnterior.setVisible(true);	
+					}
 					dispose();
-					
-					
 				}
 				
 			}
@@ -252,27 +275,37 @@ public class TelaAdicionarLocatario extends JFrame {
 	
 	private boolean verificaCampos() {
 		
-		boolean verificacao = false;
-
 		if(campoNome.getText().trim().isEmpty()) {
 			lAvisoNome.setText("O campo acima está vazio!");
+			
+			return false;
 		}else if(campoSerie.getText().trim().isEmpty()) {
 			lAvisoSerie.setText("O campo acima está vazio!");
+			
+			return false;
 		}else if(!campoData.getText().matches("\\d{2}/\\d{2}/\\d{4}")) {
 			lAvisoData.setText("A data deve ser DD/MM/AAAA");
+			
+			return false;
 		}else if(campoEndereco.getText().trim().isEmpty()) {
 			lAvisoEndereco.setText("O campo acima está vazio!");
+			
+			return false;
 		}else if(campoReferencia.getText().trim().isEmpty()) {
 			lAvisoReferencia.setText("O campo acima está vazio!");
+			
+			return false;
 		}else if(campoPai.getText().trim().isEmpty()) {
 			lAvisoPai.setText("O campo acima está vazio!");
+			
+			return false;
 		}else if(campoMãe.getText().trim().isEmpty()) {
 			lAvisoMae.setText("O campo acima está vazio!");
-		}else{
-			verificacao = true;
+			
+			return false;
 		}
 		
-		return verificacao;
+		return true;
 	}
 
 }

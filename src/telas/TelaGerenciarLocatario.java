@@ -22,7 +22,6 @@ public class TelaGerenciarLocatario extends JFrame {
 	public TelaGerenciarLocatario(ArrayList<Locatario> locatarios, TelaPrincipal tp) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 190);
 		contentPane = new JPanel();
@@ -41,7 +40,7 @@ public class TelaGerenciarLocatario extends JFrame {
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				TelaAdicionarLocatario tal = new TelaAdicionarLocatario(locatarios, tgl);
+				TelaAdicionarLocatario tal = new TelaAdicionarLocatario(tgl, null,"Adicionar Usuário", locatarios, null);
 				tal.setVisible(true);
 				setVisible(false);
 			}
@@ -53,7 +52,7 @@ public class TelaGerenciarLocatario extends JFrame {
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLocatario(frame, "Selecione o locatário a ser removido", locatarios, false).setVisible(true);
+				new TelaLocalizarLocatario(frame, "Selecione o usuário a ser removido", locatarios, 0).setVisible(true);
 				setVisible(false);
 			}
 		});
@@ -61,12 +60,26 @@ public class TelaGerenciarLocatario extends JFrame {
 		panel.add(btnRemover);
 		
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TelaLocalizarLocatario(frame, "Selecione o usuário a ser editado", locatarios, 2).setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnEditar.setIcon(new ImageIcon(TelaGerenciarLocatario.class.getResource("/icones/i_edit_locatario_16.png")));
 		panel.add(btnEditar);
 		
 		JButton btnConsultar = new JButton("Consultar");
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TelaLocalizarLocatario(frame, "Selecione o usuário a ser consultado", locatarios, 1).setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnConsultar.setIcon(new ImageIcon(TelaGerenciarLocatario.class.getResource("/icones/i_locatario_16.png")));
 		panel.add(btnConsultar);
 		
-		JLabel lblGerenciamentoDeLocatrios = new JLabel("Gerenciamento de Locatários");
+		JLabel lblGerenciamentoDeLocatrios = new JLabel("Gerenciamento de Usuários");
 		lblGerenciamentoDeLocatrios.setFont(new Font("Dialog", Font.BOLD, 17));
 		contentPane.add(lblGerenciamentoDeLocatrios, BorderLayout.NORTH);
 		
