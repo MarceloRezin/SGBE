@@ -47,18 +47,33 @@ public class GerenciaLocatarios {
 	}
 	
 	//Adiciona um locador a lista
-	public void addLocatario(Locatario locatario) {
+	public boolean addLocatario(Locatario locatario) {
 		
 		for (Locatario l : locatarios) {
 			if(l.getNomeCompleto().equals(locatario.getNomeCompleto())) {
-				return;
+				return false;
 			}
 		}
 		this.locatarios.add(locatario);
+		return true;
 	}
 	
+	public boolean editaLocatario(Locatario loc) {
+		for (Locatario locatario : locatarios) {
+			if(loc.getNomeCompleto() == locatario.getNomeCompleto()) {
+				locatario.setDataNascimento(loc.getNomeCompleto());
+				locatario.setDataNascimento(loc.getDataNascimento());
+				locatario.setEndereco(loc.getEndereco());
+				locatario.setNomeMae(loc.getNomeMae());
+				locatario.setNomePai(loc.getNomePai());
+				locatario.setReferencia(loc.getReferencia());
+				locatario.setSerie(loc.getSerie());
+				return true;
+			}
+		}
+		return false;
+	}
 
-	//Remove o locador d
 	public void removeLocatario(Locatario locatario) {
 		this.locatarios.remove(locatario);		
 	}
