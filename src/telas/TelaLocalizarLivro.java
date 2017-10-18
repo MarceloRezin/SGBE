@@ -27,6 +27,8 @@ import javax.swing.event.ListSelectionListener;
 
 import livro.Biblioteca;
 import livro.Livro;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JCheckBox;
 
 @SuppressWarnings("serial")
 public class TelaLocalizarLivro extends JFrame {
@@ -37,16 +39,18 @@ public class TelaLocalizarLivro extends JFrame {
 	private Integer numeroLivro =  new Integer(-1);
 	private Biblioteca lib;
 	ArrayList<Livro> busca;
+	private JCheckBox checkDisponivel;
 	
 	//op=0 apagar
 	//op=1 consultar
 	//op=2 editar
+	//op=3 emprestimo
 
-	public TelaLocalizarLivro(JFrame telaAnterior, String mensagem, ArrayList<Livro> livros, int op) {
+	public TelaLocalizarLivro(TelaEmprestimo te, JFrame telaAnterior, String mensagem, ArrayList<Livro> livros, int op) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 458, 331);
+		setBounds(100, 100, 458, 380);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -84,10 +88,18 @@ public class TelaLocalizarLivro extends JFrame {
 					}else if(op == 1) {
 						new TelaConsultarLivro(telaAnterior, tll, liv).setVisible(true);
 					}else if(op == 2) {
-						new TelaAdicionarLivro(telaAnterior, tll, livros, "Editar Livro", liv).setVisible(true);;
+						new TelaAdicionarLivro(telaAnterior, tll, livros, "Editar Livro", liv).setVisible(true);
+					}else if(op == 3) {
+						te.liv = liv;
+						te.lLivro.setText(liv.getTitulo());
+						te.setVisible(true);
 					}
 					
-					setVisible(false);
+					if(te== null) {
+						setVisible(false);
+					}else {
+						dispose();
+					}
 				}	
 			}
 		});
@@ -110,6 +122,7 @@ public class TelaLocalizarLivro extends JFrame {
 		}
 		
 		campoPesquisa = new JTextField();
+		campoPesquisa.setFont(new Font("Dialog", Font.PLAIN, 14));
 		campoPesquisa.setColumns(10);
 		
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
@@ -123,6 +136,12 @@ public class TelaLocalizarLivro extends JFrame {
 				if(!campoPesquisa.getText().trim().isEmpty()) {
 					listModel.removeAllElements();
 					lib = new Biblioteca(livros);
+					
+					boolean apenasDisponivel = checkDisponivel.isSelected();
+					
+					if(op == 3) {
+						apenasDisponivel = true;
+					}
 					
 					if(comboBox.getSelectedIndex() == 0) {
 						
@@ -139,12 +158,13 @@ public class TelaLocalizarLivro extends JFrame {
 						}
 						
 						if(ehNumero) {
-							busca = lib.consultaNumeroRegistro(campoPesquisa.getText());
+							
+							busca = lib.consultaNumeroRegistro(campoPesquisa.getText(), apenasDisponivel);
 							
 						}
 						
 					}else {
-						busca = lib.consultaTitulo(campoPesquisa.getText());
+						busca = lib.consultaTitulo(campoPesquisa.getText(), apenasDisponivel);
 					}
 					
 					for (Livro livro : busca) {
@@ -158,30 +178,52 @@ public class TelaLocalizarLivro extends JFrame {
 		 
 		
 		listResultado.setModel(listModel);
+		
+		checkDisponivel = new JCheckBox("Disponiveis apenas");
+		checkDisponivel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnBuscar.doClick();
+				
+			}
+		});
+		
+		if(op == 3) {
+			checkDisponivel.setSelected(true);
+			checkDisponivel.setEnabled(false);
+		}
 		GroupLayout gl_panelTipoBusca = new GroupLayout(panelTipoBusca);
 		gl_panelTipoBusca.setHorizontalGroup(
 			gl_panelTipoBusca.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelTipoBusca.createSequentialGroup()
-					.addGap(4)
-					.addGroup(gl_panelTipoBusca.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelTipoBusca.createSequentialGroup()
-							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
-							.addGap(5)
-							.addComponent(campoPesquisa, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
-							.addGap(4)
-							.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
-						.addComponent(listResultado, GroupLayout.PREFERRED_SIZE, 430, GroupLayout.PREFERRED_SIZE)))
+					.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(campoPesquisa, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addGroup(gl_panelTipoBusca.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(checkDisponivel)
+					.addGap(305))
+				.addGroup(gl_panelTipoBusca.createSequentialGroup()
+					.addComponent(listResultado, GroupLayout.PREFERRED_SIZE, 430, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
 		gl_panelTipoBusca.setVerticalGroup(
 			gl_panelTipoBusca.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelTipoBusca.createSequentialGroup()
 					.addGap(3)
-					.addGroup(gl_panelTipoBusca.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panelTipoBusca.createParallelGroup(Alignment.BASELINE, false)
 						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(campoPesquisa, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addGap(15)
-					.addComponent(listResultado, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(campoPesquisa, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(checkDisponivel)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(listResultado, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
+					.addGap(49))
 		);
 		panelTipoBusca.setLayout(gl_panelTipoBusca);
 
@@ -200,6 +242,4 @@ public class TelaLocalizarLivro extends JFrame {
             }
         });
 	}
-	
-
 }

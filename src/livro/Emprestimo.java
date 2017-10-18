@@ -11,33 +11,33 @@ import locatario.Locatario;
 
 public class Emprestimo {
 	
-	private Locatario locador;
-	private Livro livro;
+	private String nomeLocatario;
+	private int numeroRegistro;
 	private LocalDate data;
 	private LocalDate entrega;
 	private Boolean atraso;
 		
 	//Construtor com Paramentros.	
-	public Emprestimo(Locatario locador, Livro livro, LocalDate data, LocalDate entrega, Boolean atraso) {
+	public Emprestimo(String nomeLocatario, int numeroRegistro, LocalDate data, LocalDate entrega, Boolean atraso) {
 		super();
-		this.locador = locador;
-		this.livro = livro;
+		this.nomeLocatario = nomeLocatario;
+		this.numeroRegistro = numeroRegistro;
 		this.data = data;
 		this.entrega = entrega;
 		this.atraso = atraso;
 	}
 	//Gets e Sets
-	public Locatario getLocador() {
-		return locador;
+	public String getNomeLocatario() {
+		return nomeLocatario;
 	}
-	public void setLocador(Locatario locador) {
-		this.locador = locador;
+	public void setNomeLocatario(String nomeLocatario) {
+		this.nomeLocatario = nomeLocatario;
 	}
-	public Livro getLivro() {
-		return livro;
+	public int getNumeroRegistro() {
+		return numeroRegistro;
 	}
-	public void setLivro(Livro livro) {
-		this.livro = livro;
+	public void setNumeroRegistro(int numeroRegistro) {
+		this.numeroRegistro = numeroRegistro;
 	}
 	public LocalDate getData() {
 		return data;
@@ -70,8 +70,8 @@ public class Emprestimo {
 		}
 		
 		
-		return  "Locador: " + locador + "\n" +
-				"Livro: " + livro + "\n" +
+		return  "Locador: " + nomeLocatario + "\n" +
+				"Livro: " + numeroRegistro + "\n" +
 				"Data: " + data + "/n" +
 				"Entrega: " + entrega + "/n" +
 				"Atrasado:" + at;

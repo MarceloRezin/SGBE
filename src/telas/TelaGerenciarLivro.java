@@ -55,7 +55,7 @@ public class TelaGerenciarLivro extends JFrame {
 		btnRemover.setIcon(new ImageIcon(TelaGerenciarLivro.class.getResource("/icones/i_rem_livro.png")));
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLivro(frame, "Selecione o livro a ser removido", livros, 0).setVisible(true);
+				new TelaLocalizarLivro(null, frame, "Selecione o livro a ser removido", livros, 0).setVisible(true);
 				setVisible(false);
 				
 			}
@@ -66,7 +66,7 @@ public class TelaGerenciarLivro extends JFrame {
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLivro(frame, "Selecione o livro a ser editado", livros, 2).setVisible(true);
+				new TelaLocalizarLivro(null, frame, "Selecione o livro a ser editado", livros, 2).setVisible(true);
 				setVisible(false);
 			}
 		});
@@ -78,7 +78,7 @@ public class TelaGerenciarLivro extends JFrame {
 		btnConsultar.setIcon(new ImageIcon(TelaGerenciarLivro.class.getResource("/icones/i_consul_livro_16.png")));
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLivro(frame, "Selecione o livro a ser consultado", livros, 1).setVisible(true);
+				new TelaLocalizarLivro(null, frame, "Selecione o livro a ser consultado", livros, 1).setVisible(true);
 				setVisible(false);
 				
 			}

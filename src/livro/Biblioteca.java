@@ -33,23 +33,35 @@ public class Biblioteca {
 	}
 
 	//Consulta pelo numero de registro e retorna o livro.
-	public ArrayList<Livro> consultaNumeroRegistro(String numeroRegistro) {
+	public ArrayList<Livro> consultaNumeroRegistro(String numeroRegistro, boolean disponivel) {
 		
 		ArrayList <Livro> busca = new ArrayList<>();
 		
-		for (Livro livro : livros) {
+		if(disponivel == true) {
+			for (Livro livro : livros) {
+				
+				String num = "" + livro.getNumeroRegistro();
+				if(num.contains(numeroRegistro) && livro.isDisponivel()) {
+					busca.add(livro);
+				}
+			}	
 			
-			String num = "" + livro.getNumeroRegistro();
-			if(num.contains(numeroRegistro)) {
-				busca.add(livro);
-			}
-		}	
+		}else {
+			for (Livro livro : livros) {
+				
+				String num = "" + livro.getNumeroRegistro();
+				if(num.contains(numeroRegistro)) {
+					busca.add(livro);
+				}
+			}	
+		}
+		
 		
 		return busca;
 	}
 	
 	//Consulra pelo Titulo e Retorna o Livro.
-	public ArrayList<Livro> consultaTitulo(String titulo) {
+	public ArrayList<Livro> consultaTitulo(String titulo, boolean disp) {
 		
 		ArrayList <Livro> busca = new ArrayList<>();
 		

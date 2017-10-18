@@ -2,11 +2,16 @@ package telas;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -15,43 +20,32 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
-import javax.swing.SpinnerModel;
-import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import arquivos.Diretorio;
+import arquivos.GravaJSON;
+import livro.Emprestimo;
+import livro.Livro;
+import locatario.Locatario;
+import javax.swing.JComboBox;
 
 @SuppressWarnings("serial")
 public class TelaEmprestimo extends JFrame {
 
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaEmprestimo frame = new TelaEmprestimo();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	
 	public JLabel lNome;
+	public Locatario loc;
+	public Livro liv;
+	public JLabel lLivro;
 	
-	public TelaEmprestimo() {
+	private static final ExecutorService threadpool = Executors.newFixedThreadPool(2);
+	
+	public TelaEmprestimo(TelaPrincipal tp, ArrayList<Emprestimo> emprestimos, ArrayList<Locatario> locatarios, ArrayList<Livro> livros) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 382);
 		contentPane = new JPanel();
@@ -80,20 +74,18 @@ public class TelaEmprestimo extends JFrame {
 		lNome.setFont(new Font("Dialog", Font.BOLD, 14));
 		panelAluno.add(lNome);
 		
-		TelaEmprestimo estaClasse = this;
+		TelaEmprestimo te = this;
 		
-		JButton btnLocalizar = new JButton("Localizar");
-		btnLocalizar.addActionListener(new ActionListener() {
+		JButton btnLocalizarLoc = new JButton("Localizar");
+		btnLocalizarLoc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String s="";
-				//TelaLocalizarLocatario tl = new TelaLocalizarLocatario(estaClasse, s);
-				//tl.setVisible(true);
-				//setVisible(false);
+				new TelaLocalizarLocatario(te, te, "Selecione o usuário para o empréstimo", locatarios, 3).setVisible(true);
+				setVisible(false);
 				
 			}
 		});
-		btnLocalizar.setIcon(new ImageIcon(TelaEmprestimo.class.getResource("/icones/i_buscar_locatario_16.png")));
-		panelAluno.add(btnLocalizar);
+		btnLocalizarLoc.setIcon(new ImageIcon(TelaEmprestimo.class.getResource("/icones/i_buscar_locatario_16.png")));
+		panelAluno.add(btnLocalizarLoc);
 		
 		JPanel panelLivro = new JPanel();
 		panel.add(panelLivro);
@@ -102,13 +94,20 @@ public class TelaEmprestimo extends JFrame {
 		JLabel lblLivro = new JLabel("Título:");
 		panelLivro.add(lblLivro);
 		
-		JLabel label = new JLabel("");
-		panelLivro.add(label);
+		lLivro = new JLabel("");
+		lLivro.setFont(new Font("Dialog", Font.BOLD, 14));
+		panelLivro.add(lLivro);
 		panelLivro.setBorder(BorderFactory.createTitledBorder("Livro"));
 		
-		JButton btnLocalizar_1 = new JButton("Localizar");
-		btnLocalizar_1.setIcon(new ImageIcon(TelaEmprestimo.class.getResource("/icones/i_buscar_livro_16.png")));
-		panelLivro.add(btnLocalizar_1);
+		JButton btnLocalizarLiv = new JButton("Localizar");
+		btnLocalizarLiv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TelaLocalizarLivro(te, te, "Selecione o livro a ser emprestado", livros, 3).setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnLocalizarLiv.setIcon(new ImageIcon(TelaEmprestimo.class.getResource("/icones/i_buscar_livro_16.png")));
+		panelLivro.add(btnLocalizarLiv);
 		
 		JPanel panelData = new JPanel();
 		panel.add(panelData);
@@ -117,20 +116,57 @@ public class TelaEmprestimo extends JFrame {
 		JLabel lblDataDeDevoluo = new JLabel("Data de Devolução:");
 		panelData.add(lblDataDeDevoluo);
 		
-		
-		
-
-
 		Calendar cal = Calendar.getInstance();
-		Date now = cal.getTime();
-		cal.add(Calendar.YEAR, -50);
-		Date startDate = cal.getTime();
-		cal.add(Calendar.YEAR, 100);
-		Date endDate = cal.getTime();
-		SpinnerModel model = new SpinnerDateModel(now, startDate, endDate, Calendar.YEAR);
-		JSpinner spinner = new JSpinner(model);
-			
-		panelData.add(spinner);
+		int mesAtual = cal.get(GregorianCalendar.MONTH);
+		
+		LocalDate dataEmprestimo = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH));
+		
+		cal.add(Calendar.DATE, 7);
+		
+		if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+			cal.add(Calendar.DATE, 1);
+		}else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+			cal.add(Calendar.DATE, 2);
+		}
+		
+		LocalDate dataEntrega = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH));
+		
+		JComboBox<Integer> cDia = new JComboBox<Integer>();
+		panelData.add(cDia);
+				
+		JComboBox<Integer> cMes = new JComboBox<Integer>();
+		panelData.add(cMes);
+		for(int i=1; i<=12; i++) {
+			cMes.addItem(i);
+		}
+		
+		cMes.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cal.set(Calendar.MONTH, cMes.getSelectedIndex());
+				
+				int a = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+				
+					cDia.removeAllItems();
+					
+					for(int i=1; i<=a; i++) {
+						cDia.addItem(i);
+					}
+				
+					cDia.setSelectedIndex(cal.get(GregorianCalendar.DAY_OF_MONTH) -1);
+			}
+		});
+		
+		
+		JComboBox<Integer> cAno = new JComboBox<Integer>();
+		panelData.add(cAno);
+		
+		for(int i=2017; i<=2020; i++) {
+			cAno.addItem(i);
+		}
+		
+		cMes.setSelectedItem(mesAtual + 1);
+		
 		
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);
@@ -152,15 +188,25 @@ public class TelaEmprestimo extends JFrame {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//TelaPrincipal tp = new TelaPrincipal();
-				//tp.setVisible(true);
-				//setVisible(false);
+				tp.setVisible(true);
+				dispose();
 			}
 		});
 		btnCancelar.setIcon(new ImageIcon(TelaEmprestimo.class.getResource("/icones/i_cancelar_16.png")));
 		panel_1.add(btnCancelar);
 		
 		JButton btnConcluir = new JButton("Concluir");
+		btnConcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Emprestimo ep = new Emprestimo(loc.getNomeCompleto(), liv.getNumeroRegistro(), dataEmprestimo, dataEntrega, false);
+				liv.setDisponivel(false);
+				
+				emprestimos.add(ep);
+				
+				threadpool.submit(new GravaJSON<>(emprestimos, Diretorio.DIR_EMPRESTIMOS));
+				threadpool.submit(new GravaJSON<>(livros, Diretorio.DIR_LIVROS));
+			}
+		});
 		btnConcluir.setIcon(new ImageIcon(TelaEmprestimo.class.getResource("/icones/i_concluir_16.png")));
 		panel_1.add(btnConcluir);
 		

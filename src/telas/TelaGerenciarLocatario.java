@@ -52,7 +52,7 @@ public class TelaGerenciarLocatario extends JFrame {
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLocatario(frame, "Selecione o usuário a ser removido", locatarios, 0).setVisible(true);
+				new TelaLocalizarLocatario(null, frame, "Selecione o usuário a ser removido", locatarios, 0).setVisible(true);
 				setVisible(false);
 			}
 		});
@@ -62,7 +62,7 @@ public class TelaGerenciarLocatario extends JFrame {
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLocatario(frame, "Selecione o usuário a ser editado", locatarios, 2).setVisible(true);
+				new TelaLocalizarLocatario(null, frame, "Selecione o usuário a ser editado", locatarios, 2).setVisible(true);
 				setVisible(false);
 			}
 		});
@@ -72,7 +72,7 @@ public class TelaGerenciarLocatario extends JFrame {
 		JButton btnConsultar = new JButton("Consultar");
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLocatario(frame, "Selecione o usuário a ser consultado", locatarios, 1).setVisible(true);
+				new TelaLocalizarLocatario(null, frame, "Selecione o usuário a ser consultado", locatarios, 1).setVisible(true);
 				setVisible(false);
 			}
 		});

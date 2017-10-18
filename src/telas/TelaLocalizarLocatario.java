@@ -43,8 +43,9 @@ public class TelaLocalizarLocatario extends JFrame {
 	//op=0 apagar
 	//op=1 consultar
 	//op=2 editar
+	//op=3 emprestimo
 	
-	public TelaLocalizarLocatario(JFrame telaAnterior, String mensagem, ArrayList<Locatario> locatarios, int op) {
+	public TelaLocalizarLocatario(TelaEmprestimo te, JFrame telaAnterior, String mensagem, ArrayList<Locatario> locatarios, int op) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,9 +87,18 @@ public class TelaLocalizarLocatario extends JFrame {
 						new TelaConsultarLocatario(telaAnterior, tlc, encontrado).setVisible(true);
 					}else if(op == 2) {
 						new TelaAdicionarLocatario(telaAnterior, tlc, "Editar Usuário", locatarios, encontrado).setVisible(true);;
+					}else if(op == 3) {
+						te.loc = encontrado;
+						te.lNome.setText(encontrado.getNomeCompleto());
+						te.setVisible(true);
 					}
 					
-					setVisible(false);
+					if(te== null) {
+						setVisible(false);
+					}else {
+						dispose();
+					}
+					
 				}	
 			}
 		});
