@@ -5,7 +5,6 @@
 package livro;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import locatario.Locatario;
 

@@ -56,8 +56,6 @@ public class Livro {
 	public void setDisponivel(Boolean disponivel) {
 		this.disponivel = disponivel;
 	}
-
-	
 	//Retorno da String com todos os dados formatados.
 	@Override
 	public String toString() {

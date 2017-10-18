@@ -74,13 +74,27 @@ public class Biblioteca {
 	}
 	
 	
-	public void addLivro(Livro livro) {
+	
+	public boolean addLivro(Livro livro) {
 		for (Livro l : livros) {
 			if(l.getNumeroRegistro() == livro.getNumeroRegistro()) {
-				return;
-			}			
+				return false;
+			}
 		}
 			this.livros.add(livro);
+			return true;
+	}
+	
+	public boolean editaLivro(Livro l) {
+		for(Livro liv : livros) {
+			if(liv.getNumeroRegistro() == l.getNumeroRegistro()) {
+				liv.setAutor(l.getAutor());
+				liv.setLocalizacao(l.getLocalizacao());
+				liv.setTitulo(l.getTitulo());
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void removeLivro(Livro livro) {
