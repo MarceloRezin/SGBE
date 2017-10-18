@@ -66,7 +66,7 @@ public class Biblioteca {
 		for (Livro l : livros) {
 			if(l.getNumeroRegistro() == livro.getNumeroRegistro()) {
 				return;
-			}			
+			}
 		}
 			this.livros.add(livro);
 	}

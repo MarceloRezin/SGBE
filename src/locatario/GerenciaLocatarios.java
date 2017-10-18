@@ -48,6 +48,12 @@ public class GerenciaLocatarios {
 	
 	//Adiciona um locador a lista
 	public void addLocatario(Locatario locatario) {
+		
+		for (Locatario l : locatarios) {
+			if(l.getNomeCompleto().equals(locatario.getNomeCompleto())) {
+				return;
+			}
+		}
 		this.locatarios.add(locatario);
 	}
 	
