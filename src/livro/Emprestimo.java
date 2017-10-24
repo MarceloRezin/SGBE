@@ -6,8 +6,6 @@ package livro;
 
 import java.time.LocalDate;
 
-import locatario.Locatario;
-
 public class Emprestimo {
 	
 	private String nomeLocatario;

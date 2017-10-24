@@ -52,6 +52,12 @@ public class TelaPrincipal extends JFrame {
 		panel.add(btnEmprestimo);
 		
 		JButton btnDevolucao = new JButton("Devolução");
+		btnDevolucao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TelaSelacaoDevolucao(tp, livros, emprestimos).setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnDevolucao.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_devolcao_32.png")));
 		panel.add(btnDevolucao);
 		

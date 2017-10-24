@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -26,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 import arquivos.Diretorio;
 import arquivos.GravaJSON;
 import livro.Emprestimo;
+import livro.GerenciaEmprestimo;
 import livro.Livro;
 import locatario.Locatario;
 import javax.swing.JComboBox;
@@ -39,8 +41,6 @@ public class TelaEmprestimo extends JFrame {
 	public Locatario loc;
 	public Livro liv;
 	public JLabel lLivro;
-	
-	private static final ExecutorService threadpool = Executors.newFixedThreadPool(2);
 	
 	public TelaEmprestimo(TelaPrincipal tp, ArrayList<Emprestimo> emprestimos, ArrayList<Locatario> locatarios, ArrayList<Livro> livros) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
@@ -199,12 +199,16 @@ public class TelaEmprestimo extends JFrame {
 		btnConcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Emprestimo ep = new Emprestimo(loc.getNomeCompleto(), liv.getNumeroRegistro(), dataEmprestimo, dataEntrega, false);
-				liv.setDisponivel(false);
 				
-				emprestimos.add(ep);
+				new GerenciaEmprestimo(ep, livros, emprestimos, liv).emprestar();
 				
-				threadpool.submit(new GravaJSON<>(emprestimos, Diretorio.DIR_EMPRESTIMOS));
-				threadpool.submit(new GravaJSON<>(livros, Diretorio.DIR_LIVROS));
+				if(JOptionPane.showConfirmDialog(null, "Deseja realizar outro emprestimo?", "", 0) == JOptionPane.YES_OPTION) {
+					new TelaEmprestimo(tp, emprestimos, locatarios, livros).setVisible(true);
+					dispose();
+				}else {
+					tp.setVisible(true);
+					dispose();
+				}
 			}
 		});
 		btnConcluir.setIcon(new ImageIcon(TelaEmprestimo.class.getResource("/icones/i_concluir_16.png")));

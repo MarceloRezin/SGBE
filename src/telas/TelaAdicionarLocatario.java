@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 
 import arquivos.Diretorio;
 import arquivos.GravaJSON;
+import locatario.GerenciaLocatarios;
 import locatario.Locatario;
 
 @SuppressWarnings("serial")
@@ -200,6 +201,7 @@ public class TelaAdicionarLocatario extends JFrame {
 		btnCancelar.setIcon(new ImageIcon(TelaAdicionarLocatario.class.getResource("/icones/i_cancelar_16.png")));
 		panel_1.add(btnCancelar);
 		
+		
 		if(loc != null) {
 			campoData.setText(loc.getDataNascimento());
 			campoEndereco.setText(loc.getEndereco());
@@ -254,15 +256,27 @@ public class TelaAdicionarLocatario extends JFrame {
 					
 					Locatario locatario = new Locatario(campoNome.getText(), campoData.getText(), campoEndereco.getText(), campoReferencia.getText(), campoSerie.getText(), campoPai.getText(), campoMãe.getText());
 					
+					boolean resul = true;
+					String msg = "adicionado";
+					
+					
 					if(loc == null) {
-						locatarios.add(locatario);
+						resul = new GerenciaLocatarios(locatarios).addLocatario(locatario);
+					}else {
+						new GerenciaLocatarios(locatarios).editaLocatario(locatario);
+						msg = "editado";
+					}
 						
+					if(resul) {
 						threadpool.submit(new GravaJSON<>(locatarios, Diretorio.DIR_LOCATARIOS));
 						
-						JOptionPane.showMessageDialog(null, "Usuário adicionado!", "Concluido", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Usuário " + msg + "!", "Concluido", JOptionPane.INFORMATION_MESSAGE);
 						telaAnterior.setVisible(true);	
+						
+						dispose();
+					}else {		
+						lAvisoNome.setText("Já existe um usuário com esse nome!");
 					}
-					dispose();
 				}
 				
 			}

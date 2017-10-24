@@ -45,6 +45,7 @@ public class TelaLocalizarLivro extends JFrame {
 	//op=1 consultar
 	//op=2 editar
 	//op=3 emprestimo
+	//op=4 devolução
 
 	public TelaLocalizarLivro(TelaEmprestimo te, JFrame telaAnterior, String mensagem, ArrayList<Livro> livros, int op) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
@@ -95,6 +96,8 @@ public class TelaLocalizarLivro extends JFrame {
 						te.setVisible(true);
 					}
 					
+					//TODO fazer tela delvolução com informações 
+					
 					if(te== null) {
 						setVisible(false);
 					}else {
@@ -138,10 +141,15 @@ public class TelaLocalizarLivro extends JFrame {
 					lib = new Biblioteca(livros);
 					
 					boolean apenasDisponivel = checkDisponivel.isSelected();
+					boolean naoDisp = false;
 					
 					if(op == 3) {
 						apenasDisponivel = true;
+					}else if(op == 4) {
+						naoDisp = true;
+						apenasDisponivel = false;
 					}
+					
 					
 					if(comboBox.getSelectedIndex() == 0) {
 						
@@ -159,12 +167,12 @@ public class TelaLocalizarLivro extends JFrame {
 						
 						if(ehNumero) {
 							
-							busca = lib.consultaNumeroRegistro(campoPesquisa.getText(), apenasDisponivel);
+							busca = lib.consultaNumeroRegistro(campoPesquisa.getText(), apenasDisponivel, naoDisp);
 							
 						}
 						
 					}else {
-						busca = lib.consultaTitulo(campoPesquisa.getText(), apenasDisponivel);
+						busca = lib.consultaTitulo(campoPesquisa.getText(), apenasDisponivel, naoDisp);
 					}
 					
 					for (Livro livro : busca) {
@@ -192,6 +200,10 @@ public class TelaLocalizarLivro extends JFrame {
 		if(op == 3) {
 			checkDisponivel.setSelected(true);
 			checkDisponivel.setEnabled(false);
+		}
+		
+		if(op == 4) {
+			checkDisponivel.setText("Não disponivel apenas");
 		}
 		GroupLayout gl_panelTipoBusca = new GroupLayout(panelTipoBusca);
 		gl_panelTipoBusca.setHorizontalGroup(

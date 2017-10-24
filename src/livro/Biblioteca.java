@@ -33,11 +33,11 @@ public class Biblioteca {
 	}
 
 	//Consulta pelo numero de registro e retorna o livro.
-	public ArrayList<Livro> consultaNumeroRegistro(String numeroRegistro, boolean disponivel) {
+	public ArrayList<Livro> consultaNumeroRegistro(String numeroRegistro, boolean disponivel, boolean naoDisp) {
 		
 		ArrayList <Livro> busca = new ArrayList<>();
 		
-		if(disponivel == true) {
+		if(disponivel == true && naoDisp == false) {
 			for (Livro livro : livros) {
 				
 				String num = "" + livro.getNumeroRegistro();
@@ -46,7 +46,16 @@ public class Biblioteca {
 				}
 			}	
 			
-		}else {
+		}else if(disponivel == false && naoDisp == true) {
+				for (Livro livro : livros) {
+				
+				String num = "" + livro.getNumeroRegistro();
+				if(num.contains(numeroRegistro) && !livro.isDisponivel()) {
+					busca.add(livro);
+				}
+			}
+		
+		}else if(disponivel == false && naoDisp == false){
 			for (Livro livro : livros) {
 				
 				String num = "" + livro.getNumeroRegistro();
@@ -61,19 +70,46 @@ public class Biblioteca {
 	}
 	
 	//Consulra pelo Titulo e Retorna o Livro.
-	public ArrayList<Livro> consultaTitulo(String titulo, boolean disp) {
+	public ArrayList<Livro> consultaTitulo(String titulo, boolean disp, boolean naoDisp) {
 		
 		ArrayList <Livro> busca = new ArrayList<>();
 		
-		for (Livro livro : livros) {
-			if(livro.getTitulo().toLowerCase().contains(titulo.toLowerCase())) {
-				busca.add(livro);
-			}
-		}		
+		if(disp == true && naoDisp == false) {
+			for (Livro livro : livros) {
+				if(livro.getTitulo().toLowerCase().contains(titulo.toLowerCase()) && livro.isDisponivel()) {
+					busca.add(livro);
+				}
+			}		
+			
+		}else if(disp == false && naoDisp == true) {
+			for (Livro livro : livros) {
+				if(livro.getTitulo().toLowerCase().contains(titulo.toLowerCase()) && !livro.isDisponivel()) {
+					busca.add(livro);
+				}
+			}		
+			
+		}else if(disp == false && naoDisp == false) {
+			for (Livro livro : livros) {
+				if(livro.getTitulo().toLowerCase().contains(titulo.toLowerCase())) {
+					busca.add(livro);
+				}
+			}		
+		}
+		
 		return busca;
 	}
 	
-	
+	public ArrayList<Livro> consultaTitulo(String titulo, boolean disponivel){
+		ArrayList <Livro> busca = new ArrayList<>();
+		
+		for (Livro livro : livros) {
+			if(livro.getTitulo().toLowerCase().contains(titulo.toLowerCase()) && livro.isDisponivel()) {
+				busca.add(livro);
+			}
+		}
+		
+		return busca;
+	}
 	
 	public boolean addLivro(Livro livro) {
 		for (Livro l : livros) {

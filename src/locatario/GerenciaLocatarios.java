@@ -58,20 +58,19 @@ public class GerenciaLocatarios {
 		return true;
 	}
 	
-	public boolean editaLocatario(Locatario loc) {
+	public void editaLocatario(Locatario loc) {
 		for (Locatario locatario : locatarios) {
-			if(loc.getNomeCompleto() == locatario.getNomeCompleto()) {
-				locatario.setDataNascimento(loc.getNomeCompleto());
+			if(locatario.getNomeCompleto().equals(loc.getNomeCompleto())) {
+				
 				locatario.setDataNascimento(loc.getDataNascimento());
 				locatario.setEndereco(loc.getEndereco());
 				locatario.setNomeMae(loc.getNomeMae());
 				locatario.setNomePai(loc.getNomePai());
 				locatario.setReferencia(loc.getReferencia());
 				locatario.setSerie(loc.getSerie());
-				return true;
+				
 			}
 		}
-		return false;
 	}
 
 	public void removeLocatario(Locatario locatario) {
