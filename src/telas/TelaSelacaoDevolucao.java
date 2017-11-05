@@ -26,6 +26,8 @@ public class TelaSelacaoDevolucao extends JFrame {
 	private JPanel contentPane;
 
 	public TelaSelacaoDevolucao(TelaPrincipal tp, ArrayList<Livro> livros, ArrayList<Emprestimo> emprestimos) {
+		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 156);
 		contentPane = new JPanel();
@@ -42,11 +44,17 @@ public class TelaSelacaoDevolucao extends JFrame {
 		comboBox.addItem("Devolver");
 		comboBox.addItem("Renovar");
 		
+		JFrame ta = this;
+		
 		JButton btnSelecionar = new JButton("Selecionar");
 		btnSelecionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(comboBox.getSelectedIndex() == 0) {
-					
+					new TelaLocalizarLivro(null, tp, ta, "Selecione o livro a ser devolvido", livros, emprestimos, 4).setVisible(true);
+					setVisible(false);
+				}else if(comboBox.getSelectedIndex() == 1) {
+					new TelaLocalizarLivro(null, tp, ta, "Selecione o livro a ser renovado", livros, emprestimos, 5).setVisible(true);
+					setVisible(false);
 				}
 			}
 		});

@@ -14,7 +14,7 @@ public class GerenciaEmprestimo {
 	private ArrayList<Livro> livros;
 	private ArrayList<Emprestimo> emprestimos;
 	
-	private static final ExecutorService threadpool = Executors.newFixedThreadPool(3);
+	private static final ExecutorService threadpool = Executors.newFixedThreadPool(2);
 	
 	public GerenciaEmprestimo(Emprestimo emprestimo, ArrayList<Livro> livros, ArrayList<Emprestimo> emprestimos, Livro livro) {
 		super();
@@ -24,25 +24,30 @@ public class GerenciaEmprestimo {
 		this.livro = livro;
 	}
 
+	public void setEmprestimo(Emprestimo emprestimo) {
+		this.emprestimo = emprestimo;
+	}
+	
+	public void setLivro(Livro livro) {
+		this.livro = livro;
+	}
 
 	public void emprestar() {
 		emprestimos.add(emprestimo);
 		
 		livro.setDisponivel(false);
 		
-		threadpool.submit(new GravaJSON<>(emprestimos, Diretorio.DIR_EMPRESTIMOS));
-		threadpool.submit(new GravaJSON<>(livros, Diretorio.DIR_LIVROS));
+		atualizarRegistros();
 	}
 	
 	public void devolver() {
-		emprestimos.remove(localizarPorLivro());
 		livro.setDisponivel(true);
 		
 		atualizarRegistros();
 		
 	}
 	
-	private Emprestimo localizarPorLivro() {
+	public Emprestimo localizarPorLivro() {
 		for (Emprestimo ep : emprestimos) {
 			if(ep.getNumeroRegistro() == livro.getNumeroRegistro()) {
 				return ep;
@@ -51,7 +56,7 @@ public class GerenciaEmprestimo {
 		return null;
 	}
 	
-	private void atualizarRegistros() {
+	public void atualizarRegistros() {
 		threadpool.submit(new GravaJSON<>(emprestimos, Diretorio.DIR_EMPRESTIMOS));
 		threadpool.submit(new GravaJSON<>(livros, Diretorio.DIR_LIVROS));
 	}

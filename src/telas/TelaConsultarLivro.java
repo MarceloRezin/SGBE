@@ -23,7 +23,7 @@ public class TelaConsultarLivro extends JFrame {
 	private JPanel contentPane;
 
 	public TelaConsultarLivro(JFrame telaAnterior, TelaLocalizarLivro tll, Livro liv) {
-super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
+		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

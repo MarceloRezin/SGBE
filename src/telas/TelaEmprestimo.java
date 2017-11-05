@@ -10,9 +10,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -23,9 +20,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
-import arquivos.Diretorio;
-import arquivos.GravaJSON;
 import livro.Emprestimo;
 import livro.GerenciaEmprestimo;
 import livro.Livro;
@@ -42,9 +36,8 @@ public class TelaEmprestimo extends JFrame {
 	public Livro liv;
 	public JLabel lLivro;
 	
-	public TelaEmprestimo(TelaPrincipal tp, ArrayList<Emprestimo> emprestimos, ArrayList<Locatario> locatarios, ArrayList<Livro> livros) {
+	public TelaEmprestimo(TelaPrincipal tp, JFrame telaAnterior, ArrayList<Emprestimo> emprestimos, ArrayList<Locatario> locatarios, ArrayList<Livro> livros, Livro livroRenovar) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
-		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 382);
@@ -53,7 +46,9 @@ public class TelaEmprestimo extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JLabel lblEmprstimo = new JLabel("Empréstimo");
+		GerenciaEmprestimo ge = new GerenciaEmprestimo(null, livros, emprestimos, (livroRenovar==null ? liv : livroRenovar));
+		
+		JLabel lblEmprstimo = new JLabel((livroRenovar==null?"Empréstimo":"Renovação"));
 		lblEmprstimo.setFont(new Font("Dialog", Font.BOLD, 17));
 		contentPane.add(lblEmprstimo, BorderLayout.NORTH);
 		
@@ -63,20 +58,24 @@ public class TelaEmprestimo extends JFrame {
 		
 		JPanel panelAluno = new JPanel();
 		panel.add(panelAluno);
-		panelAluno.setBorder(BorderFactory.createTitledBorder("Locatário"));
+		panelAluno.setBorder(BorderFactory.createTitledBorder("Usuário"));
 		panelAluno.setLayout(new GridLayout(2, 2, 0, 0));
 		
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
 		panelAluno.add(lblNome);
 		
-		lNome = new JLabel("");
+		lNome = new JLabel((livroRenovar==null?"":ge.localizarPorLivro().getNomeLocatario()));
 		lNome.setFont(new Font("Dialog", Font.BOLD, 14));
 		panelAluno.add(lNome);
 		
 		TelaEmprestimo te = this;
 		
 		JButton btnLocalizarLoc = new JButton("Localizar");
+		if(livroRenovar != null) {
+			btnLocalizarLoc.setEnabled(false);
+		}
+		
 		btnLocalizarLoc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new TelaLocalizarLocatario(te, te, "Selecione o usuário para o empréstimo", locatarios, 3).setVisible(true);
@@ -94,15 +93,18 @@ public class TelaEmprestimo extends JFrame {
 		JLabel lblLivro = new JLabel("Título:");
 		panelLivro.add(lblLivro);
 		
-		lLivro = new JLabel("");
+		lLivro = new JLabel((livroRenovar==null?"":livroRenovar.getTitulo()));
 		lLivro.setFont(new Font("Dialog", Font.BOLD, 14));
 		panelLivro.add(lLivro);
 		panelLivro.setBorder(BorderFactory.createTitledBorder("Livro"));
 		
 		JButton btnLocalizarLiv = new JButton("Localizar");
+		if(livroRenovar != null) {
+			btnLocalizarLiv.setEnabled(false);
+		}
 		btnLocalizarLiv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLivro(te, te, "Selecione o livro a ser emprestado", livros, 3).setVisible(true);
+				new TelaLocalizarLivro(te, null, te, "Selecione o livro a ser emprestado", livros, null, 3).setVisible(true);
 				setVisible(false);
 			}
 		});
@@ -128,9 +130,7 @@ public class TelaEmprestimo extends JFrame {
 		}else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
 			cal.add(Calendar.DATE, 2);
 		}
-		
-		LocalDate dataEntrega = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH));
-		
+				
 		JComboBox<Integer> cDia = new JComboBox<Integer>();
 		panelData.add(cDia);
 				
@@ -167,7 +167,6 @@ public class TelaEmprestimo extends JFrame {
 		
 		cMes.setSelectedItem(mesAtual + 1);
 		
-		
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);
 		panel_1.setLayout(new GridLayout(3, 0, 0, 0));
@@ -188,7 +187,12 @@ public class TelaEmprestimo extends JFrame {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				tp.setVisible(true);
+				if(livroRenovar != null) {
+					tp.setVisible(true);
+				}else {
+					telaAnterior.setVisible(true);
+				}
+	
 				dispose();
 			}
 		});
@@ -198,16 +202,43 @@ public class TelaEmprestimo extends JFrame {
 		JButton btnConcluir = new JButton("Concluir");
 		btnConcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Emprestimo ep = new Emprestimo(loc.getNomeCompleto(), liv.getNumeroRegistro(), dataEmprestimo, dataEntrega, false);
+				LocalDate dataEntrega = LocalDate.of((Integer)cAno.getSelectedItem(), (Integer)cMes.getSelectedItem(), (Integer)cDia.getSelectedItem());
 				
-				new GerenciaEmprestimo(ep, livros, emprestimos, liv).emprestar();
-				
-				if(JOptionPane.showConfirmDialog(null, "Deseja realizar outro emprestimo?", "", 0) == JOptionPane.YES_OPTION) {
-					new TelaEmprestimo(tp, emprestimos, locatarios, livros).setVisible(true);
-					dispose();
+				if(lNome.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Você ainda não definiu um usuário!", "Erro", JOptionPane.ERROR_MESSAGE);
+				}else if(lLivro.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Você ainda não definiu um livro!", "Erro", JOptionPane.ERROR_MESSAGE);
+				}else if(dataEmprestimo.isAfter(dataEntrega) || dataEmprestimo.isEqual(dataEntrega)) {
+					JOptionPane.showMessageDialog(null, "A data de devolução não pode ser igual ou anterior à data de empréstimo!", "Erro", JOptionPane.ERROR_MESSAGE);
 				}else {
-					tp.setVisible(true);
-					dispose();
+					Emprestimo ep = (livroRenovar==null ? new Emprestimo(loc.getNomeCompleto(), liv.getNumeroRegistro(), dataEmprestimo, dataEntrega, false) : ge.localizarPorLivro());
+					
+					if(livroRenovar != null) {
+						ep.setDataPrevistaEntrega(dataEntrega);
+						ge.setEmprestimo(ep);
+						ge.atualizarRegistros();
+					}else {
+						ge.setLivro(liv);
+						ge.setEmprestimo(ep);
+						ge.emprestar();
+					}
+					
+					System.out.println(livroRenovar);
+					
+					if(livroRenovar == null) {
+						if(JOptionPane.showConfirmDialog(null, "Emprestimo Realizado! Deseja realizar outro emprestimo?", "Concluido!", 0) == JOptionPane.YES_OPTION) {
+							new TelaEmprestimo(tp, null, emprestimos, locatarios, livros, null).setVisible(true);
+							dispose();
+						}else {
+							tp.setVisible(true);
+							dispose();
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "Renovação realizada!", "Concluido", JOptionPane.INFORMATION_MESSAGE);
+						tp.setVisible(true);
+						dispose();
+					}
+					
 				}
 			}
 		});

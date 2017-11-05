@@ -18,7 +18,7 @@ public class LeJsonAtraso implements Callable<ArrayList<Emprestimo>> {
 		
 		BufferedReader br = null;
 		try {
-			br = new BufferedReader(new FileReader(Diretorio.DIR_RAIZ.diretorio + Diretorio.DIR_ATRASOS.diretorio));
+			br = new BufferedReader(new FileReader(Diretorio.DIR_RAIZ.diretorio + Diretorio.DIR_EMPRESTIMOS_CONCLUIDOS.diretorio));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

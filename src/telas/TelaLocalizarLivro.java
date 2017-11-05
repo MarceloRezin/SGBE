@@ -15,20 +15,21 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import livro.Biblioteca;
+import livro.Emprestimo;
 import livro.Livro;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JCheckBox;
 
 @SuppressWarnings("serial")
 public class TelaLocalizarLivro extends JFrame {
@@ -46,8 +47,9 @@ public class TelaLocalizarLivro extends JFrame {
 	//op=2 editar
 	//op=3 emprestimo
 	//op=4 devolução
+	//op=5 renovação
 
-	public TelaLocalizarLivro(TelaEmprestimo te, JFrame telaAnterior, String mensagem, ArrayList<Livro> livros, int op) {
+	public TelaLocalizarLivro(TelaEmprestimo te, TelaPrincipal tp,JFrame telaAnterior, String mensagem, ArrayList<Livro> livros, ArrayList<Emprestimo> emprestimos, int op) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,9 +96,11 @@ public class TelaLocalizarLivro extends JFrame {
 						te.liv = liv;
 						te.lLivro.setText(liv.getTitulo());
 						te.setVisible(true);
+					}else if(op == 4) {
+						new TelaDevolucaoLivro(tp,tll,livros, emprestimos, liv).setVisible(true);
+					}else if(op==5) {
+						new TelaEmprestimo(tp, tll, emprestimos, null, livros, liv).setVisible(true);
 					}
-					
-					//TODO fazer tela delvolução com informações 
 					
 					if(te== null) {
 						setVisible(false);
@@ -139,24 +143,12 @@ public class TelaLocalizarLivro extends JFrame {
 				if(!campoPesquisa.getText().trim().isEmpty()) {
 					listModel.removeAllElements();
 					lib = new Biblioteca(livros);
-					
-					boolean apenasDisponivel = checkDisponivel.isSelected();
-					boolean naoDisp = false;
-					
-					if(op == 3) {
-						apenasDisponivel = true;
-					}else if(op == 4) {
-						naoDisp = true;
-						apenasDisponivel = false;
-					}
-					
-					
+						
 					if(comboBox.getSelectedIndex() == 0) {
 						
 						boolean ehNumero = false;
 						
 						try{
-							
 							Integer.parseInt(campoPesquisa.getText());
 							
 							ehNumero = true;
@@ -167,18 +159,41 @@ public class TelaLocalizarLivro extends JFrame {
 						
 						if(ehNumero) {
 							
-							busca = lib.consultaNumeroRegistro(campoPesquisa.getText(), apenasDisponivel, naoDisp);
+							if(op == 3) {
+								busca = lib.consultaNumeroRegistro(campoPesquisa.getText(), true);
+							}else if(op == 4 || op == 5) {
+								busca = lib.consultaNumeroRegistro(campoPesquisa.getText(), false);
+							}else {
+								if(checkDisponivel.isSelected() == true) {
+									busca = lib.consultaNumeroRegistro(campoPesquisa.getText(), true);
+									
+								}else {
+									busca = lib.consultaNumeroRegistro(campoPesquisa.getText());
+								}
+							}
 							
 						}
 						
 					}else {
-						busca = lib.consultaTitulo(campoPesquisa.getText(), apenasDisponivel, naoDisp);
+						if(op == 3) {
+							busca = lib.consultaTitulo(campoPesquisa.getText(), true);
+						}else if(op == 4 || op == 5) {
+							busca = lib.consultaTitulo(campoPesquisa.getText(), false);
+						}else {
+							if(checkDisponivel.isSelected() == true) {
+								busca = lib.consultaTitulo(campoPesquisa.getText(), true);
+								
+							}else {
+								busca = lib.consultaTitulo(campoPesquisa.getText());
+							}
+						}
 					}
 					
-					for (Livro livro : busca) {
-						listModel.addElement(livro.getTitulo());
+					if(busca != null) {
+						for (Livro livro : busca) {
+							listModel.addElement(livro.getTitulo());
+						}
 					}
-			
 				}
 			}
 		});
@@ -202,8 +217,10 @@ public class TelaLocalizarLivro extends JFrame {
 			checkDisponivel.setEnabled(false);
 		}
 		
-		if(op == 4) {
+		if(op == 4 || op == 5) {
 			checkDisponivel.setText("Não disponivel apenas");
+			checkDisponivel.setSelected(true);
+			checkDisponivel.setEnabled(false);
 		}
 		GroupLayout gl_panelTipoBusca = new GroupLayout(panelTipoBusca);
 		gl_panelTipoBusca.setHorizontalGroup(

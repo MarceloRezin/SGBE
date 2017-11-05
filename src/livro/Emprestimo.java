@@ -5,73 +5,87 @@
 package livro;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Emprestimo {
 	
 	private String nomeLocatario;
 	private int numeroRegistro;
-	private LocalDate data;
-	private LocalDate entrega;
-	private Boolean atraso;
+	private LocalDate dataEmprestimo;
+	private LocalDate dataPrevistaEntrega;
+	private LocalDate dataEntrega;
+	private boolean atraso;
 		
-	//Construtor com Paramentros.	
-	public Emprestimo(String nomeLocatario, int numeroRegistro, LocalDate data, LocalDate entrega, Boolean atraso) {
+	public Emprestimo(String nomeLocatario, int numeroRegistro, LocalDate dataEmprestimo, LocalDate dataPrevistaEntrega, boolean atraso) {
 		super();
 		this.nomeLocatario = nomeLocatario;
 		this.numeroRegistro = numeroRegistro;
-		this.data = data;
-		this.entrega = entrega;
+		this.dataEmprestimo = dataEmprestimo;
+		this.dataPrevistaEntrega = dataPrevistaEntrega;
+		this.dataEntrega = null;
 		this.atraso = atraso;
 	}
-	//Gets e Sets
+
 	public String getNomeLocatario() {
 		return nomeLocatario;
 	}
+
 	public void setNomeLocatario(String nomeLocatario) {
 		this.nomeLocatario = nomeLocatario;
 	}
+
 	public int getNumeroRegistro() {
 		return numeroRegistro;
 	}
+
 	public void setNumeroRegistro(int numeroRegistro) {
 		this.numeroRegistro = numeroRegistro;
 	}
-	public LocalDate getData() {
-		return data;
+
+	public LocalDate getDataEmprestimo() {
+		return dataEmprestimo;
 	}
-	public void setData(LocalDate data) {
-		this.data = data;
+
+	public void setDataEmprestimo(LocalDate dataEmprestimo) {
+		this.dataEmprestimo = dataEmprestimo;
 	}
-	public LocalDate getEntrega() {
-		return entrega;
+
+	public LocalDate getDataPrevistaEntrega() {
+		return dataPrevistaEntrega;
 	}
-	public void setEntrega(LocalDate entrega) {
-		this.entrega = entrega;
+
+	public void setDataPrevistaEntrega(LocalDate dataPrevistaEntrega) {
+		this.dataPrevistaEntrega = dataPrevistaEntrega;
 	}
-	public Boolean isAtraso() {
+
+	public LocalDate getDataEntrega() {
+		return dataEntrega;
+	}
+
+	public void setDataEntrega(LocalDate dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
+
+	public boolean getAtraso() {
 		return atraso;
 	}
-	public void setAtraso(Boolean atraso) {
+
+	public void setAtraso(boolean atraso) {
 		this.atraso = atraso;
 	}
-	
+
 	//Retorno da String com todos os dados formatados.
 	@Override
 	public String toString() {
-		//Atribui a verificão de Atraso no Emprestimo.
+		DateTimeFormatter formatador = 
+		DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
-		String at = "Não";		
-		
-		if(atraso) {
-			at = "Sim";
-		}
-		
-		
-		return  "Locador: " + nomeLocatario + "\n" +
+		return  "Usuário: " + nomeLocatario + "\n" +
 				"Livro: " + numeroRegistro + "\n" +
-				"Data: " + data + "/n" +
-				"Entrega: " + entrega + "/n" +
-				"Atrasado:" + at;
+				"Data de empréstimo : " + dataEmprestimo.format(formatador) + "\n" +
+				"Data prevista para entrega: " + dataPrevistaEntrega.format(formatador) + "\n" +
+				"Data de entrega: " + (dataEntrega!=null ? dataEntrega.format(formatador) : "Ainda não foi entrege") + "\n" +
+				"Atrasado: " + (atraso==true ? "Sim" : "Não");
 	}
 	
 	

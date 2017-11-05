@@ -43,7 +43,7 @@ public class TelaPrincipal extends JFrame {
 		JButton btnEmprestimo = new JButton("Empréstimo");
 		btnEmprestimo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TelaEmprestimo te = new TelaEmprestimo(tp, emprestimos, locatarios, livros);
+				TelaEmprestimo te = new TelaEmprestimo(tp, null, emprestimos, locatarios, livros, null);
 				te.setVisible(true);
 				dispose();
 			}
@@ -58,7 +58,7 @@ public class TelaPrincipal extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnDevolucao.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_devolcao_32.png")));
+		btnDevolucao.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_devolucao_32.png")));
 		panel.add(btnDevolucao);
 		
 		
