@@ -86,6 +86,12 @@ public class TelaPrincipal extends JFrame {
 		panel.add(btnGerLocatarios);
 		
 		JButton btnAtrasos = new JButton("Atrasos");
+		btnAtrasos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TelaLocalizarEmprestimo(tp, emprestimos,"Selecione o emprestimo a ser consultado" ,0).setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnAtrasos.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/icones/i_atraso_32.png")));
 		panel.add(btnAtrasos);
 		

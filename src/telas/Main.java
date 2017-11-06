@@ -8,6 +8,7 @@ import java.util.concurrent.Future;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import arquivos.Diretorio;
+import arquivos.GravaJSON;
 import arquivos.LeJsonEmprestimo;
 import arquivos.LeJsonLivro;
 import arquivos.LeJsonLocatario;
@@ -63,6 +64,8 @@ public class Main {
 			//ArrayList<Emprestimo> atrasos = fA.get();
 			
 			TelaPrincipal tp = new TelaPrincipal(locatarios, livros, emprestimos, null);
+			
+			threadpool.submit(new GravaJSON<>(emprestimos, Diretorio.DIR_EMPRESTIMOS));
 			
 			tp.setVisible(true);
 		} catch (InterruptedException | ExecutionException e1) {

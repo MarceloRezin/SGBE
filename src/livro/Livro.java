@@ -59,20 +59,11 @@ public class Livro {
 	//Retorno da String com todos os dados formatados.
 	@Override
 	public String toString() {
-		//Atribui a Disponibilidade ao Livro.
-		String dis;		
-		if(disponivel) {
-			dis = "Disponivel";
-		}
-		else {
-			dis = "Indisponivel";
-		}
-		
-		return	"Numero De Registro: " + numeroRegistro + "\n" +
+			return	"Numero De Registro: " + numeroRegistro + "\n" +
 				"Titulo: " + titulo + "\n" +
 				"Autor: " + autor + "\n" +
 				"Localização: "	+ localizacao + "\n"+ 
-				"Disponivel: " + dis;
+				"Disponivel: " + (disponivel==true?"Sim":"Não");
 	}
 	
 }

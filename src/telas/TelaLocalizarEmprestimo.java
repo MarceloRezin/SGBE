@@ -7,7 +7,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
@@ -26,31 +25,23 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import livro.Biblioteca;
 import livro.Emprestimo;
-import livro.Livro;
+import livro.GerenciaEmprestimo;
 
 @SuppressWarnings("serial")
-public class TelaLocalizarLivro extends JFrame {
+public class TelaLocalizarEmprestimo extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField campoPesquisa;
 	
-	private Integer numeroLivro =  new Integer(-1);
-	private Biblioteca lib;
-	ArrayList<Livro> busca;
+	private Integer ordemEmprestimo =  new Integer(-1);
+	private GerenciaEmprestimo ge;
+	ArrayList<Emprestimo> busca = new ArrayList<>();
 	private JCheckBox checkDisponivel;
 	
-	//op=0 apagar
-	//op=1 consultar
-	//op=2 editar
-	//op=3 emprestimo
-	//op=4 devolução
-	//op=5 renovação
-	//op=6 atrasados
-
-	public TelaLocalizarLivro(TelaEmprestimo te, TelaPrincipal tp,JFrame telaAnterior, String mensagem, ArrayList<Livro> livros, ArrayList<Emprestimo> emprestimos, int op) {
+	//op=0 atrasados
+	
+	public TelaLocalizarEmprestimo(JFrame telaAnterior, ArrayList<Emprestimo> emprestimos, String mensagem, int op) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,36 +68,18 @@ public class TelaLocalizarLivro extends JFrame {
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		panel1.add(horizontalStrut);
 		
-		TelaLocalizarLivro tll = this;
+		TelaLocalizarEmprestimo tle = this;
 		
 		JButton btnSelecionar = new JButton("Selecionar");
 		btnSelecionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(numeroLivro != -1) {
-					Livro liv = busca.get(numeroLivro);
+				if(ordemEmprestimo != -1) {
+					Emprestimo ep = busca.get(ordemEmprestimo);
 					
 					if(op == 0) {
-						new TelaRemoverLivro(telaAnterior, tll, livros, liv).setVisible(true);
+						new TelaConsultarEmprestimo(telaAnterior, tle, ep).setVisible(true);;
 						setVisible(false);
-					}else if(op == 1) {
-						new TelaConsultarLivro(telaAnterior, tll, liv).setVisible(true);
-					}else if(op == 2) {
-						new TelaAdicionarLivro(telaAnterior, tll, livros, "Editar Livro", liv).setVisible(true);
-					}else if(op == 3) {
-						te.liv = liv;
-						te.lLivro.setText(liv.getTitulo());
-						te.setVisible(true);
-					}else if(op == 4) {
-						new TelaDevolucaoLivro(tp,tll,livros, emprestimos, liv).setVisible(true);
-					}else if(op==5) {
-						new TelaEmprestimo(tp, tll, emprestimos, null, livros, liv).setVisible(true);
-					}
-					
-					if(te== null) {
-						setVisible(false);
-					}else {
-						dispose();
 					}
 				}	
 			}
@@ -122,7 +95,7 @@ public class TelaLocalizarLivro extends JFrame {
 		panel.add(panelTipoBusca);
 		panelTipoBusca.setBorder(BorderFactory.createTitledBorder("Busca"));
 		
-		String[] tiposDeBuscas = {"Numero", "Título"};
+		String[] tiposDeBuscas = {"Numero"};
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
 		for(int i=0; i<tiposDeBuscas.length; i++) {
@@ -141,9 +114,10 @@ public class TelaLocalizarLivro extends JFrame {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				ge = new GerenciaEmprestimo(null, null, emprestimos, null);
+				
 				if(!campoPesquisa.getText().trim().isEmpty()) {
 					listModel.removeAllElements();
-					lib = new Biblioteca(livros);
 						
 					if(comboBox.getSelectedIndex() == 0) {
 						
@@ -160,40 +134,20 @@ public class TelaLocalizarLivro extends JFrame {
 						
 						if(ehNumero) {
 							
-							if(op == 3) {
-								busca = lib.consultaNumeroRegistro(campoPesquisa.getText(), true);
-							}else if(op == 4 || op == 5) {
-								busca = lib.consultaNumeroRegistro(campoPesquisa.getText(), false);
-							}else {
-								if(checkDisponivel.isSelected() == true) {
-									busca = lib.consultaNumeroRegistro(campoPesquisa.getText(), true);
-									
-								}else {
-									busca = lib.consultaNumeroRegistro(campoPesquisa.getText());
-								}
+							if(op == 0) {
+								busca.add(ge.localizarPorLivro(campoPesquisa.getText(), true));
 							}
-							
 						}
 						
-					}else {
-						if(op == 3) {
-							busca = lib.consultaTitulo(campoPesquisa.getText(), true);
-						}else if(op == 4 || op == 5) {
-							busca = lib.consultaTitulo(campoPesquisa.getText(), false);
-						}else {
-							if(checkDisponivel.isSelected() == true) {
-								busca = lib.consultaTitulo(campoPesquisa.getText(), true);
-								
-							}else {
-								busca = lib.consultaTitulo(campoPesquisa.getText());
-							}
-						}
 					}
-					
-					if(busca != null) {
-						for (Livro livro : busca) {
-							listModel.addElement(livro.getTitulo());
-						}
+				
+				}else {
+					busca = ge.emprestimosPorAtraso(true);
+				}
+				
+				if(busca != null) {
+					for (Emprestimo ep : busca) {
+						listModel.addElement(ep.getNumeroRegistro() + " / " + ep.getNomeLocatario());
 					}
 				}
 			}
@@ -218,8 +172,8 @@ public class TelaLocalizarLivro extends JFrame {
 			checkDisponivel.setEnabled(false);
 		}
 		
-		if(op == 4 || op == 5) {
-			checkDisponivel.setText("Não disponivel apenas");
+		if(op == 0) {
+			checkDisponivel.setText("Atrasados apenas");
 			checkDisponivel.setSelected(true);
 			checkDisponivel.setEnabled(false);
 		}
@@ -267,7 +221,7 @@ public class TelaLocalizarLivro extends JFrame {
             @Override
             public void valueChanged(ListSelectionEvent arg0) {
                 if (!arg0.getValueIsAdjusting()) {
-                  numeroLivro = listResultado.getSelectedIndex();
+                  ordemEmprestimo = listResultado.getSelectedIndex();
                 }
             }
         });

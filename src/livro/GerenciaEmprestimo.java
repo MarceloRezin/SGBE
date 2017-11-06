@@ -56,6 +56,37 @@ public class GerenciaEmprestimo {
 		return null;
 	}
 	
+	public Emprestimo localizarPorLivro(String numero) {
+		for (Emprestimo ep : emprestimos) {
+			if(numero.equals(ep.getNumeroRegistro()+"")) {
+				return ep;
+			}
+		}
+		return null;
+	}
+	
+	public Emprestimo localizarPorLivro(String numero, boolean atrasado) {
+		for (Emprestimo ep : emprestimos) {
+			if(numero.equals(ep.getNumeroRegistro()+"") && ep.getAtraso() == atrasado) {
+				return ep;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Emprestimo> emprestimosPorAtraso(boolean atrasado){
+		ArrayList<Emprestimo> subList = new ArrayList<>();
+		
+		for (Emprestimo ep : emprestimos) {
+			if(ep.getAtraso() == atrasado) {
+				
+				subList.add(ep);
+			}
+		}
+		
+		return subList;
+	}
+	
 	public void atualizarRegistros() {
 		threadpool.submit(new GravaJSON<>(emprestimos, Diretorio.DIR_EMPRESTIMOS));
 		threadpool.submit(new GravaJSON<>(livros, Diretorio.DIR_LIVROS));
