@@ -23,7 +23,7 @@ public class TelaPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	
-	public TelaPrincipal(ArrayList<Locatario> locatarios, ArrayList<Livro> livros, ArrayList<Emprestimo> emprestimos, ArrayList<Emprestimo> atrasos) {
+	public TelaPrincipal(ArrayList<Locatario> locatarios, ArrayList<Livro> livros, ArrayList<Emprestimo> emprestimos) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 583, 302);

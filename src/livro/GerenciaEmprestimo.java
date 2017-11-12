@@ -58,20 +58,24 @@ public class GerenciaEmprestimo {
 	
 	public Emprestimo localizarPorLivro(String numero) {
 		for (Emprestimo ep : emprestimos) {
-			if(numero.equals(ep.getNumeroRegistro()+"")) {
+			String s = ep.getNumeroRegistro()+"";
+			if(s.contains(numero)) {
 				return ep;
 			}
 		}
 		return null;
 	}
 	
-	public Emprestimo localizarPorLivro(String numero, boolean atrasado) {
+	public ArrayList<Emprestimo> localizarPorLivro(String numero, boolean atrasado) {
+		ArrayList<Emprestimo> subList = new ArrayList<>();
+		
 		for (Emprestimo ep : emprestimos) {
-			if(numero.equals(ep.getNumeroRegistro()+"") && ep.getAtraso() == atrasado) {
-				return ep;
+			String s = ep.getNumeroRegistro()+"";
+			if(s.contains(numero) && ep.getAtraso() == atrasado) {
+				subList.add(ep);
 			}
 		}
-		return null;
+		return subList;
 	}
 	
 	public ArrayList<Emprestimo> emprestimosPorAtraso(boolean atrasado){

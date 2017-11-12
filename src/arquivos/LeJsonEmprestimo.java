@@ -26,14 +26,14 @@ public class LeJsonEmprestimo implements Callable<ArrayList<Emprestimo>> {
 	
 		ArrayList<Emprestimo> emprestimos = new Gson().fromJson(br, type);
 		
-		for (Emprestimo emprestimo : emprestimos) {
-			if(emprestimo.getDataEmprestimo().isAfter(emprestimo.getDataPrevistaEntrega())) {
-				emprestimo.setAtraso(true);
-			}
+		if(emprestimos == null) {
+			return emprestimos = new ArrayList<>();
 		}
 		
-		if(emprestimos == null) {
-			emprestimos = new ArrayList<>();
+		for (Emprestimo emprestimo : emprestimos) {
+			if(emprestimo.getDataEmprestimo().isAfter(emprestimo.getDataPrevistaEntrega()) && emprestimo.getDataEntrega()==null) {
+				emprestimo.setAtraso(true);
+			}
 		}
 		
 		return emprestimos;

@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -55,9 +56,12 @@ public class TelaGerenciarLivro extends JFrame {
 		btnRemover.setIcon(new ImageIcon(TelaGerenciarLivro.class.getResource("/icones/i_rem_livro.png")));
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLivro(null, null, frame, "Selecione o livro a ser removido", livros, null, 0).setVisible(true);
-				setVisible(false);
-				
+				if(livros.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Não exitem livros cadastrados!", "Erro", JOptionPane.ERROR_MESSAGE);
+				}else {
+					new TelaLocalizarLivro(null, null, frame, "Selecione o livro a ser removido", livros, null, 0).setVisible(true);
+					setVisible(false);
+				}
 			}
 		});
 
@@ -66,8 +70,12 @@ public class TelaGerenciarLivro extends JFrame {
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLivro(null, null, frame, "Selecione o livro a ser editado", livros, null, 2).setVisible(true);
-				setVisible(false);
+				if(livros.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Não exitem livros cadastrados!", "Erro", JOptionPane.ERROR_MESSAGE);
+				}else {
+					new TelaLocalizarLivro(null, null, frame, "Selecione o livro a ser editado", livros, null, 2).setVisible(true);
+					setVisible(false);
+				}
 			}
 		});
 		btnEditar.setIcon(new ImageIcon(TelaGerenciarLivro.class.getResource("/icones/i_edit_livro_16.png")));
@@ -78,9 +86,12 @@ public class TelaGerenciarLivro extends JFrame {
 		btnConsultar.setIcon(new ImageIcon(TelaGerenciarLivro.class.getResource("/icones/i_consul_livro_16.png")));
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLivro(null, null, frame, "Selecione o livro a ser consultado", livros, null, 1).setVisible(true);
-				setVisible(false);
-				
+				if(livros.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Não exitem livros cadastrados!", "Erro", JOptionPane.ERROR_MESSAGE);
+				}else {
+					new TelaLocalizarLivro(null, null, frame, "Selecione o livro a ser consultado", livros, null, 1).setVisible(true);
+					setVisible(false);
+				}
 			}
 		});
 

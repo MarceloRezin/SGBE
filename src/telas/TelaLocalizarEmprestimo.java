@@ -135,10 +135,9 @@ public class TelaLocalizarEmprestimo extends JFrame {
 						if(ehNumero) {
 							
 							if(op == 0) {
-								busca.add(ge.localizarPorLivro(campoPesquisa.getText(), true));
+								busca = ge.localizarPorLivro(campoPesquisa.getText(), true);
 							}
-						}
-						
+						}		
 					}
 				
 				}else {
@@ -146,6 +145,7 @@ public class TelaLocalizarEmprestimo extends JFrame {
 				}
 				
 				if(busca != null) {
+					listModel.removeAllElements();
 					for (Emprestimo ep : busca) {
 						listModel.addElement(ep.getNumeroRegistro() + " / " + ep.getNomeLocatario());
 					}

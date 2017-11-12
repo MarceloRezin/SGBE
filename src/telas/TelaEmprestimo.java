@@ -187,7 +187,7 @@ public class TelaEmprestimo extends JFrame {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(livroRenovar != null) {
+				if(livroRenovar == null) {
 					tp.setVisible(true);
 				}else {
 					telaAnterior.setVisible(true);
@@ -222,8 +222,6 @@ public class TelaEmprestimo extends JFrame {
 						ge.setEmprestimo(ep);
 						ge.emprestar();
 					}
-					
-					System.out.println(livroRenovar);
 					
 					if(livroRenovar == null) {
 						if(JOptionPane.showConfirmDialog(null, "Emprestimo Realizado! Deseja realizar outro emprestimo?", "Concluido!", 0) == JOptionPane.YES_OPTION) {

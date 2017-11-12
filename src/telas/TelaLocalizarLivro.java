@@ -48,7 +48,6 @@ public class TelaLocalizarLivro extends JFrame {
 	//op=3 emprestimo
 	//op=4 devolução
 	//op=5 renovação
-	//op=6 atrasados
 
 	public TelaLocalizarLivro(TelaEmprestimo te, TelaPrincipal tp,JFrame telaAnterior, String mensagem, ArrayList<Livro> livros, ArrayList<Emprestimo> emprestimos, int op) {
 		super("SGBE - Sistema de Gerenciamento Bibliotecário Escolar");

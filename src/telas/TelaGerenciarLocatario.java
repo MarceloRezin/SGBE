@@ -8,6 +8,8 @@ import locatario.Locatario;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -52,8 +54,12 @@ public class TelaGerenciarLocatario extends JFrame {
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLocatario(null, frame, "Selecione o usuário a ser removido", locatarios, 0).setVisible(true);
-				setVisible(false);
+				if(locatarios.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Não exitem usuários cadastrados!", "Erro", JOptionPane.ERROR_MESSAGE);
+				}else {
+					new TelaLocalizarLocatario(null, frame, "Selecione o usuário a ser removido", locatarios, 0).setVisible(true);
+					setVisible(false);
+				}
 			}
 		});
 		btnRemover.setIcon(new ImageIcon(TelaGerenciarLocatario.class.getResource("/icones/i_rem_locatario_16.png")));
@@ -62,8 +68,12 @@ public class TelaGerenciarLocatario extends JFrame {
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLocatario(null, frame, "Selecione o usuário a ser editado", locatarios, 2).setVisible(true);
-				setVisible(false);
+				if(locatarios.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Não exitem usuários cadastrados!", "Erro", JOptionPane.ERROR_MESSAGE);
+				}else {
+					new TelaLocalizarLocatario(null, frame, "Selecione o usuário a ser editado", locatarios, 2).setVisible(true);
+					setVisible(false);
+				}
 			}
 		});
 		btnEditar.setIcon(new ImageIcon(TelaGerenciarLocatario.class.getResource("/icones/i_edit_locatario_16.png")));
@@ -72,8 +82,12 @@ public class TelaGerenciarLocatario extends JFrame {
 		JButton btnConsultar = new JButton("Consultar");
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TelaLocalizarLocatario(null, frame, "Selecione o usuário a ser consultado", locatarios, 1).setVisible(true);
-				setVisible(false);
+				if(locatarios.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Não exitem usuários cadastrados!", "Erro", JOptionPane.ERROR_MESSAGE);
+				}else {
+					new TelaLocalizarLocatario(null, frame, "Selecione o usuário a ser consultado", locatarios, 1).setVisible(true);
+					setVisible(false);
+				}
 			}
 		});
 		btnConsultar.setIcon(new ImageIcon(TelaGerenciarLocatario.class.getResource("/icones/i_locatario_16.png")));
